@@ -1,2 +1,3 @@
-build-*-Desktop*
+build-*
 *.user
+.directory
