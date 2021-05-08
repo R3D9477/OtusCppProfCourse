@@ -16,7 +16,7 @@ jobs:
         with:
           submodules: true
       - working-directory: ${{ env.app_dir }}
-        run: for f in "." ; do echo ${{ f }} ; done
+        run: for file in "." ; do echo "$file" ; done
 #        run: cmake .                          -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include
 #      - working-directory: ${{ env.app_dir }}
 #        run: cmake --build .                  -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include
