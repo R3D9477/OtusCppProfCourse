@@ -19,8 +19,8 @@ jobs:
         run: sudo apt update && sudo apt install -yq libboost-dev
       - working-directory: ${{ env.app_dir }}
         run: ls
-      - working-directory: ${{ env.app_dir }}
-        run: cmake .
+#      - working-directory: ${{ env.app_dir }}
+#        run: cmake .
 #      - working-directory: ${{ env.app_dir }}
 #        run: cmake --build .                  -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include
 #      - working-directory: ${{ env.app_dir }}
