@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.2)
 
 project(helloworld VERSION 0.0.$ENV{GITHUB_RUN_NUMBER})
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+#find_package (Boost REQUIRED COMPONENTS unit_test_framework)
+#target_link_libraries (your_test_exe Boost::unit_test_framework)
 
 configure_file(version.h.in version.h)
 
