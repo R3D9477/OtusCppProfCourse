@@ -17,12 +17,9 @@ jobs:
           submodules: true
       - working-directory: ${{ env.app_dir }}
         run: ls
-#        run: cmake .                          -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include
-#      - working-directory: ${{ env.app_dir }}
+        run: cmake .
 #        run: cmake --build .                  -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include
-#      - working-directory: ${{ env.app_dir }}
 #        run: cmake --build . --target test    -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include
-#      - working-directory: ${{ env.app_dir }}
 #        run: cmake --build . --target package -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include
 #      - name: Create Release
 #        id: create_release
