@@ -25,7 +25,6 @@ jobs:
         run: cmake --build . --target package
       - name: Create Release
         id: create_release
-        working-directory: ${{ env.app_dir }}
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -36,13 +35,12 @@ jobs:
           prerelease: false
       - name: Upload Release Asset
         id: upload-release-asset
-        working-directory: ${{ env.app_dir }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./helloworld-0.0.${{ github.run_number }}-Linux.deb
+          asset_path: ${{ env.app_dir }}/helloworld-0.0.${{ github.run_number }}-Linux.deb
           asset_name: helloworld-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
  
