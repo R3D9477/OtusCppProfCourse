@@ -16,13 +16,13 @@ jobs:
         with:
           submodules: true
       - working-directory: ${{ env.app_dir }}
-        run: cmake .
+        run: cmake .                          -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include
       - working-directory: ${{ env.app_dir }}
-        run: cmake --build .
+        run: cmake --build .                  -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include
       - working-directory: ${{ env.app_dir }}
-        run: cmake --build . --target test
+        run: cmake --build . --target test    -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include
       - working-directory: ${{ env.app_dir }}
-        run: cmake --build . --target package
+        run: cmake --build . --target package -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -43,4 +43,3 @@ jobs:
           asset_path: ${{ env.app_dir }}/helloworld-0.0.${{ github.run_number }}-Linux.deb
           asset_name: helloworld-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
- 
