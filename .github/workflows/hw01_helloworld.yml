@@ -13,15 +13,15 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-                with:
-                    submodules: true
+              with:
+                submodules: true
             # install and cache dependencies
             - name: Cache boost
-                uses: actions/cache@v1.0.3
-                id: cache-boost
-                with:
-                    path: "~/boost"
-                    key: libboost1.65-dev
+              uses: actions/cache@v1.0.3
+              id: cache-boost
+              with:
+                path: "~/boost"
+                key: libboost1.65-dev
             - name: Install boost
                 env:
                     CACHE_HIT: ${{steps.cache-boost.outputs.cache-hit}}
