@@ -3,7 +3,7 @@ name: 'Homework 01 (hello world)'
 on:
   push:
     branches:
-      - main
+      - hw01
 
 jobs:
   build:
