@@ -25,6 +25,8 @@ jobs:
         run: cmake --build .
       - working-directory: ${{ env.app_dir }}
         run: cmake --build . --target package
+      - working-directory: ${{ env.app_dir }}
+        run: ls
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
