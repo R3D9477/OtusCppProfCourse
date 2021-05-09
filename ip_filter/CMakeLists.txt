@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(ip_filter VERSION 0.0.$ENV{GITHUB_RUN_NUMBER})
-
-configure_file(version.h.in version.h)
+if(${CMAKE_BUILD_TYPE} STREQUAL Debug)
+  project(ip_filter LANGUAGES CXX)
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
+else()
+  project(ip_filter LANGUAGES CXX VERSION 0.0.$ENV{GITHUB_RUN_NUMBER})
+  configure_file(version.h.in version.h)
+endif()
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
