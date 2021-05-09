@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-if(${CMAKE_BUILD_TYPE} STREQUAL Debug)
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
   project(ip_filter LANGUAGES CXX)
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 else()
