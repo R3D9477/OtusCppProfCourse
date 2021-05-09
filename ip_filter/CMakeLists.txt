@@ -1,13 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(ip_filter VERSION LANGUAGES CXX)
+project(ip_filter VERSION 0.0.$ENV{GITHUB_RUN_NUMBER})
 
 configure_file(version.h.in version.h)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 
 add_library(VersionLib version_lib.cpp)
 
