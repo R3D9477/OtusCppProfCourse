@@ -1,4 +1,4 @@
-name: "Homework 01 (hello world)"
+name: "Homework 01 (ip filter)"
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - "hw01"
 
 env:
-  app_dir: "hello_world"
+  app_dir: "ip_filter"
 
 jobs:
   build:
@@ -22,11 +22,11 @@ jobs:
       - working-directory: ${{ env.app_dir }}
         run: cmake .
       - working-directory: ${{ env.app_dir }}
-        run: cmake --build .                  -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include
+        run: cmake --build .
       - working-directory: ${{ env.app_dir }}
-        run: cmake --build . --target test    -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include
+        run: cmake --build . --target test
       - working-directory: ${{ env.app_dir }}
-        run: cmake --build . --target package -DBoost_INCLUDE_DIR=$BOOST_ROOT_1_72_0/include
+        run: cmake --build . --target package
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -44,6 +44,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.app_dir }}/helloworld-0.0.${{ github.run_number }}-Linux.deb
-          asset_name: helloworld-0.0.${{ github.run_number }}-Linux.deb
+          asset_path: ${{ env.app_dir }}/ipfilter-0.0.${{ github.run_number }}-Linux.deb
+          asset_name: ipfilter-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
