@@ -24,8 +24,6 @@ jobs:
       - working-directory: ${{ env.app_dir }}
         run: cmake --build .
       - working-directory: ${{ env.app_dir }}
-        run: cmake --build . --target test
-      - working-directory: ${{ env.app_dir }}
         run: cmake --build . --target package
       - name: Create Release
         id: create_release
