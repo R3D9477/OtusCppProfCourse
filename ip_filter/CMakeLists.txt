@@ -1,29 +1,74 @@
+#------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------
+
 cmake_minimum_required(VERSION 3.5)
 
-if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-  project(ip_filter LANGUAGES CXX)
-  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
-else()
-  project(ip_filter LANGUAGES CXX VERSION 0.0.$ENV{GITHUB_RUN_NUMBER})
-  configure_file(version.h.in version.h)
-endif()
+set(PROJECT_NAME "ip_filter")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+#------------------------------------------------------------------------------------------------------
+
+if($ENV{GITHUB_RUN_NUMBER})
+    project(${PROJECT_NAME} LANGUAGES CXX VERSION 0.0.$ENV{GITHUB_RUN_NUMBER})
+else()
+    project(${PROJECT_NAME} LANGUAGES CXX VERSION 0.0.1)
+endif()
+
+add_executable(${PROJECT_NAME} main.cpp)
 add_library(VersionLib version_lib.cpp)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Werror)
+target_compile_options(VersionLib PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(${PROJECT_NAME} PRIVATE VersionLib)
 
-add_executable(ip_filter ip_filter.cpp)
+configure_file(version.h.in version.h)
+target_include_directories(VersionLib PRIVATE "${CMAKE_BINARY_DIR}")
 
-target_link_libraries(ip_filter VersionLib)
-
-install(TARGETS ip_filter RUNTIME DESTINATION bin)
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 
-set(CPACK_PACKAGE_CONTACT example@example.com)
+#------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------
 
-include(CPack)
+find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+enable_testing()
+
+#------------------------------------------------------------------------------------------------------
+
+add_executable(test_version test_version.cpp)
+set_target_properties(test_version PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
+target_compile_options(test_version PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(test_version ${Boost_LIBRARIES} VersionLib)
+add_test(test_version test_version)
+
+#------------------------------------------------------------------------------------------------------
+
+add_executable(test_ip_pool_parse test_ip_pool_parse.cpp)
+set_target_properties(test_ip_pool_parse PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
+target_compile_options(test_ip_pool_parse PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(test_ip_pool_parse ${Boost_LIBRARIES})
+add_test(test_ip_pool_parse test_ip_pool_parse)
+
+#------------------------------------------------------------------------------------------------------
+
+add_executable(test_ip_pool_sort test_ip_pool_sort.cpp)
+set_target_properties(test_ip_pool_sort PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
+target_compile_options(test_ip_pool_sort PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(test_ip_pool_sort ${Boost_LIBRARIES})
+add_test(test_ip_pool_sort test_ip_pool_sort)
+
+#------------------------------------------------------------------------------------------------------
+
+add_executable(test_ip_pool_filter test_ip_pool_filter.cpp)
+set_target_properties(test_ip_pool_filter PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
+target_compile_options(test_ip_pool_filter PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(test_ip_pool_filter ${Boost_LIBRARIES})
+add_test(test_ip_pool_filter test_ip_pool_filter)
+
+#------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------
