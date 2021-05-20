@@ -2,7 +2,7 @@
 
 #include <memory>
 
-template <typename T, class A>
+template <typename T, size_t max_size = 10, class A=std::allocator<T>>
 class CustomContainer
 {
 public:
@@ -25,29 +25,29 @@ public:
         T* m_ptr;
     };
 
-    CustomContainer (size_t n)
+    CustomContainer ()
     {
-        this->data = new T [n];
-        this->len = 0;
+        this->data = std::allocator_traits<A>::allocate(allocator, max_size);
+        this->pos = 0;
     }
 
     void push_back (T value)
     {
-        auto p = std::allocator_traits<A>::allocate(allocator, 1);
-        std::allocator_traits<A>::construct(allocator, p, value);
-
-        this->data[this->len++] = *p;
+        std::allocator_traits<A>::construct(allocator, &this->data[this->pos], value);
+        this->pos++;
     }
 
     Iterator begin() { return Iterator(&this->data[0]); }
-    Iterator end()   { return Iterator(&this->data[len]); }
+    Iterator end()   { return Iterator(&this->data[max_size]); }
+
+    size_t size () const { return max_size; }
 
 private:
 
     A allocator;
 
     T* data;
-    size_t len;
+    size_t pos;
 };
 
 /*

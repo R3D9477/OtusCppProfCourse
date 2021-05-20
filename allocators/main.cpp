@@ -20,13 +20,13 @@ int main()
     for (auto [key,value]: flmap) std::cout << key << " " << value << std::endl;
     std::cout << std::endl;
 
-    CustomContainer<int, std::allocator<int>> ic1(10);
-    for (int i = 0; i < 10; ++i) ic1.push_back(i);
+    CustomContainer<int,10> ic1;
+    for (size_t i = 0; i < ic1.size(); ++i) ic1.push_back(i);
     for (auto elem: ic1) std::cout << elem << " ";
     std::cout << std::endl;
 
-    CustomContainer<int, LAlloc10<int>> ic2(10);
-    for (int i = 0; i < 10; ++i) ic2.push_back(i);
+    CustomContainer<int, 10, LAlloc10<int>> ic2;
+    for (size_t i = 0; i < 10; ++i) ic2.push_back(i);
     for (auto elem: ic2) std::cout << elem << " ";
     std::cout << std::endl;
 

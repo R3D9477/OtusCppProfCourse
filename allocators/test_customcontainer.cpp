@@ -9,9 +9,9 @@ BOOST_AUTO_TEST_SUITE(test_customcontainer)
 
 BOOST_AUTO_TEST_CASE(test_customcontainer_stdalloc)
 {
-    CustomContainer<int, std::allocator<int>> ic(10);
+    CustomContainer<int, 10> ic;
 
-    for (int i = 0; i < 10; ++i)
+    for (size_t i = 0; i < ic.size(); ++i)
         ic.push_back(i);
 
     int j = 0;
@@ -20,9 +20,9 @@ BOOST_AUTO_TEST_CASE(test_customcontainer_stdalloc)
 
 BOOST_AUTO_TEST_CASE(test_customcontainer_lalloc10)
 {
-    CustomContainer<int, LAlloc10<int>> ic(10);
+    CustomContainer<int, 10, LAlloc10<int>> ic;
 
-    for (int i = 0; i < 10; ++i)
+    for (size_t i = 0; i < ic.size(); ++i)
         ic.push_back(i);
 
     int j = 0;
@@ -31,9 +31,9 @@ BOOST_AUTO_TEST_CASE(test_customcontainer_lalloc10)
 
 BOOST_AUTO_TEST_CASE(test_customcontainer_overflow)
 {
-    CustomContainer<int, LAlloc10<int>> ic(10);
+    CustomContainer<int, 10, LAlloc10<int>> ic;
 
-    for (int i = 0; i < 10; ++i)
+    for (size_t i = 0; i < ic.size(); ++i)
         ic.push_back(i);
 
     bool is_excepted = false;
