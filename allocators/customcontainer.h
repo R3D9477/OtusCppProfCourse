@@ -2,7 +2,7 @@
 
 #include <memory>
 
-template <typename T, size_t max_size = 10, class A=std::allocator<T>>
+template <typename T, size_t max_size, class A=std::allocator<T>>
 class CustomContainer
 {
 public:
@@ -33,6 +33,9 @@ public:
 
     void push_back (T value)
     {
+        if (this->pos >= max_size)
+            throw std::bad_array_new_length();
+
         std::allocator_traits<A>::construct(allocator, &this->data[this->pos], value);
         this->pos++;
     }

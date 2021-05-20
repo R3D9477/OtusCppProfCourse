@@ -29,7 +29,27 @@ BOOST_AUTO_TEST_CASE(test_customcontainer_lalloc10)
     for (auto elem: ic) BOOST_CHECK(elem == j++);
 }
 
-BOOST_AUTO_TEST_CASE(test_customcontainer_overflow)
+BOOST_AUTO_TEST_CASE(test_customcontainer_overflow_alloc)
+{
+    bool is_excepted = false;
+
+    try
+    {
+        CustomContainer<int, 11, LAlloc10<int>> ic;
+    }
+    catch (const std::bad_alloc& e)
+    {
+        is_excepted = true;
+    }
+    catch (...)
+    {
+        is_excepted = false;
+    }
+
+    BOOST_CHECK(is_excepted);
+}
+
+BOOST_AUTO_TEST_CASE(test_customcontainer_overflow_push_back)
 {
     CustomContainer<int, 10, LAlloc10<int>> ic;
 
@@ -42,7 +62,7 @@ BOOST_AUTO_TEST_CASE(test_customcontainer_overflow)
     {
         ic.push_back(11);
     }
-    catch (const std::bad_alloc& e)
+    catch (const std::bad_array_new_length& e)
     {
         is_excepted = true;
     }
