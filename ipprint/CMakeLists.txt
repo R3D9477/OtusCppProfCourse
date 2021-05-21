@@ -3,7 +3,7 @@
 
 cmake_minimum_required(VERSION 3.5)
 
-set(PROJECT_NAME "allocators")
+set(PROJECT_NAME "ipprint")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -58,27 +58,7 @@ add_test(test_version test_version)
 
 #------------------------------------------------------------------------------------------------------
 
-add_executable(test_factorial test_factorial.cpp)
-set_target_properties(test_factorial PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
-target_compile_options(test_factorial PRIVATE -Wall -Wextra -pedantic -Werror)
-target_link_libraries(test_factorial ${Boost_LIBRARIES})
-add_test(test_factorial test_factorial)
 
-#------------------------------------------------------------------------------------------------------
-
-add_executable(test_lalloc10 test_lalloc10.cpp)
-set_target_properties(test_lalloc10 PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
-target_compile_options(test_lalloc10 PRIVATE -Wall -Wextra -pedantic -Werror)
-target_link_libraries(test_lalloc10 ${Boost_LIBRARIES})
-add_test(test_lalloc10 test_lalloc10)
-
-#------------------------------------------------------------------------------------------------------
-
-add_executable(test_customcontainer test_customcontainer.cpp)
-set_target_properties(test_customcontainer PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
-target_compile_options(test_customcontainer PRIVATE -Wall -Wextra -pedantic -Werror)
-target_link_libraries(test_customcontainer ${Boost_LIBRARIES})
-add_test(test_customcontainer test_customcontainer)
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------

@@ -1,12 +1,12 @@
-name: "Homework 02 (allocators)"
+name: "Homework 03 (IP Print)"
 
 on:
   push:
     branches:
-      - "hw02"
+      - "hw03"
 
 env:
-  app_dir: "allocators"
+  app_dir: "ipprint"
 
 jobs:
   build:
