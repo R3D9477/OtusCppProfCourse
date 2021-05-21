@@ -28,10 +28,18 @@ struct LAlloc10
     {
         if (this->max_size < n)
         {
-            clear();
+            if (this->max_size > 0) {
+                if (void* tmp_p = std::realloc(this->buf, n*sizeof(T)))
+                    this->buf = static_cast<T*>(tmp_p);
+                else
+                    throw std::bad_alloc();
+            }
+            else this->buf = new T [n];
+
+            if (!this->buf)
+                throw std::bad_alloc();
 
             this->max_size = n;
-            this->buf = new T [this->max_size];
         }
     }
 
