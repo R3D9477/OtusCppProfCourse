@@ -17,10 +17,11 @@ jobs:
           submodules: true
       - name: Doxygen Install
         run: sudo apt update && sudo apt install -yq doxygen
-      - working-directory: ${{ env.app_dir }}
+      - name: Doxygen Action
         uses: mattnotmitt/doxygen-action@v1.1.0
         with:
           doxyfile-path: "./Doxyfile"
+          working-directory: ${{ env.app_dir }}
       - name: boost
         run: sudo apt update && sudo apt install -yq cmake libboost-all-dev
       - working-directory: ${{ env.app_dir }}
