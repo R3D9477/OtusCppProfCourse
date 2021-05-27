@@ -1,4 +1,4 @@
-name: "Homework 03 (IP Print)"
+name: "Homework 03 (print_ip)"
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - "hw03"
 
 env:
-  app_dir: "ipprint"
+  app_dir: "print_ip"
 
 jobs:
   build:
@@ -15,6 +15,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+      - name: Doxygen Install
+        run: sudo apt update && sudo apt install -yq doxygen
+      - name: Doxygen Action
+        uses: mattnotmitt/doxygen-action@v1.1.0
+        with:
+          doxyfile-path: "./Doxyfile"
+        working-directory: ${{ env.app_dir }}
       - name: boost
         run: sudo apt update && sudo apt install -yq cmake libboost-all-dev
       - working-directory: ${{ env.app_dir }}
