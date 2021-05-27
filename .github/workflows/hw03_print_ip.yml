@@ -20,7 +20,7 @@ jobs:
       - name: Doxygen Action
         uses: mattnotmitt/doxygen-action@v1.1.0
         with:
-          working-directory: ${{ env.app_dir }}/docs
+          working-directory: docs
           doxyfile-path: "Doxyfile.in"
       - name: boost
         run: sudo apt update && sudo apt install -yq cmake libboost-all-dev
