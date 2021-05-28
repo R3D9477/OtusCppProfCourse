@@ -1,3 +1,8 @@
 #!/bin/bash
 
-git add . ; git commit -m "`git branch -a | grep '*' | awk '{print $2}'`" ; git push
+GIT_CURR_BRANCH="`git branch -a | grep '*' | awk '{print $2}'`"
+
+git add .
+git commit -m "${GIT_CURR_BRANCH}"
+#git push
+git push --set-upstream origin "${GIT_CURR_BRANCH}"
