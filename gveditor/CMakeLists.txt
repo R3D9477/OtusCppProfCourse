@@ -4,7 +4,7 @@
 
 cmake_minimum_required(VERSION 3.5)
 
-set(PROJECT_NAME "print_ip")
+set(PROJECT_NAME "gveditor")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -54,11 +54,7 @@ add_test(test_version test_version)
 
 #------------------------------------------------------------------------------------------------------
 
-add_executable(test_print_ip test_print_ip.cpp)
-set_target_properties(test_print_ip PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
-target_compile_options(test_print_ip PRIVATE -Wall -Wextra -pedantic -Werror)
-target_link_libraries(test_print_ip ${Boost_LIBRARIES})
-add_test(test_print_ip test_print_ip)
+
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------

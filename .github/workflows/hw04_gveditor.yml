@@ -1,12 +1,12 @@
-name: "Homework 03 (print_ip)"
+name: "Homework 04 (gveditor)"
 
 on:
   push:
     branches:
-      - "hw03"
+      - "hw04"
 
 env:
-  app_dir: "print_ip"
+  app_dir: "gveditor"
 
 jobs:
   build:
