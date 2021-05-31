@@ -29,7 +29,9 @@ jobs:
           node-version: '14'
           working-directory: "docs/html"
       - working-directory: "docs/html"
-        run: npm install
+        run: npm install --save --no-package-lock dependency
+      - working-directory: "docs/html"
+        run: npm install --package-lock-only
       - working-directory: "docs/html"
         run: npm start
       - working-directory: "docs/html"
