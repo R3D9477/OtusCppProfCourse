@@ -29,6 +29,8 @@ jobs:
           node-version: '14'
           working-directory: "docs/html"
       - working-directory: "docs/html"
+        run: npm install -g coffee-script
+      - working-directory: "docs/html"
         run: npm install --save --no-package-lock dependency
       - working-directory: "docs/html"
         run: npm install --package-lock-only
