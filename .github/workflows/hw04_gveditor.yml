@@ -59,8 +59,13 @@ jobs:
       - uses: actions/setup-node@v2-beta
         with:
           node-version: '14'
-      - run: npm ci
-      - run: npm run build
+          working-directory: "docs/html"
+      - working-directory: "docs/html"
+        run: npm start
+      - working-directory: "docs/html"
+        run: npm ci
+      - working-directory: "docs/html"
+        run: npm run build
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
