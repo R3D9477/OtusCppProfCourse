@@ -22,6 +22,24 @@ jobs:
         with:
           working-directory: "docs"
           doxyfile-path: "Doxyfile.in"
+      - working-directory: "docs/html"
+        run: ls
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '14'
+          working-directory: "docs/html"
+      - working-directory: "docs/html"
+        run: npm install
+      - working-directory: "docs/html"
+        run: npm start
+      - working-directory: "docs/html"
+        run: npm ci
+      - working-directory: "docs/html"
+        run: npm run build
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: "docs/html"
       - name: boost
         run: sudo apt update && sudo apt install -yq cmake libboost-all-dev
       - working-directory: ${{ env.app_dir }}
@@ -56,19 +74,3 @@ jobs:
           asset_path: ${{ env.app_dir }}/${{ env.app_dir }}-0.0.${{ github.run_number }}-Linux.deb
           asset_name: ${{ env.app_dir }}-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
-      - working-directory: "docs/html"
-        run: ls
-      - uses: actions/setup-node@v2-beta
-        with:
-          node-version: '14'
-          working-directory: "docs/html"
-      - working-directory: "docs/html"
-        run: npm start
-      - working-directory: "docs/html"
-        run: npm ci
-      - working-directory: "docs/html"
-        run: npm run build
-      - uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: "docs/html"
