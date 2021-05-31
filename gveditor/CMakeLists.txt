@@ -38,6 +38,12 @@ target_include_directories(VersionLib PRIVATE "${CMAKE_BINARY_DIR}")
 target_include_directories(VersionLib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 #------------------------------------------------------------------------------------------------------
+
+add_library(canvas canvas.cpp shape.cpp rectangle.cpp square.cpp triangle.cpp round.cpp)
+target_compile_options(canvas PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(${PROJECT_NAME} PRIVATE canvas)
+
+#------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
 # TESTS
 
