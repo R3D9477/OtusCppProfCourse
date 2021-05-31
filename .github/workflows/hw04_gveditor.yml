@@ -20,7 +20,7 @@ jobs:
       - name: Doxygen Action
         uses: mattnotmitt/doxygen-action@v1.1.0
         with:
-          working-directory: docs
+          working-directory: "docs"
           doxyfile-path: "Doxyfile.in"
       - name: boost
         run: sudo apt update && sudo apt install -yq cmake libboost-all-dev
@@ -64,4 +64,4 @@ jobs:
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ env.app_dir }}/html
+          publish_dir: "docs/html"
