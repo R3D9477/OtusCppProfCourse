@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['set_22',['set',['../CMakeLists_8txt.html#aba7d0d48df6481b81304d667454eed86',1,'set(CPACK_GENERATOR DEB) set(CPACK_PACKAGE_VERSION_MAJOR &quot;$:&#160;CMakeLists.txt'],['../CMakeLists_8txt.html#a9267ccdfbbaf6ba4f55c35f3a1f7fd90',1,'set(CPACK_PACKAGE_VERSION_MINOR &quot;${PROJECT_VERSION_MINOR}&quot;) set(CPACK_PACKAGE_VERSION_PATCH &quot;$:&#160;CMakeLists.txt']]],
-  ['size_23',['size',['../classMatrix.html#ae93c480add445db1aa05ea5637ffb0ac',1,'Matrix']]]
+  ['project_23',['project',['../CMakeLists_8txt.html#adf82015955cca6831500f7de4ec63bcf',1,'CMakeLists.txt']]]
 ];

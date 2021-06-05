@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['operator_2a_52',['operator*',['../structMatrix_1_1Iterator.html#a7dd728a772c47356ce0969b2763b94ed',1,'Matrix::Iterator']]],
-  ['operator_2b_2b_53',['operator++',['../structMatrix_1_1Iterator.html#a5520c6d995f76946a3498a77d2aa4d6c',1,'Matrix::Iterator']]],
-  ['operator_5b_5d_54',['operator[]',['../classMatrix.html#a738f0911d10cf77a2f1172e9c4e500a8',1,'Matrix']]]
+  ['main_52',['main',['../main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main.cpp']]],
+  ['matrix_53',['Matrix',['../classMatrix.html#ab23c5b353373a44c7763372e7d4f164d',1,'Matrix::Matrix(size_t index_=0, Matrix *parent_=nullptr)'],['../classMatrix.html#ac3ee6ef24db15309f2b06d2933c1a80f',1,'Matrix::Matrix(T value_)']]]
 ];

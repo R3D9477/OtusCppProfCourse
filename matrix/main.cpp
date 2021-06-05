@@ -3,7 +3,7 @@
 #include <cassert>
 #include <iostream>
 
-#include "matrix.h"
+#include "matrix2.h"
 
 /**
  * @brief main is the 'entry point' of matrix application.
@@ -11,7 +11,7 @@
  */
 int main()
 {
-    Matrix<int, 0> matrix;
+    Matrix<int,0> matrix;
 
     for (size_t i = 0; i < 10; ++i)
         matrix[i][i] = int(i);
@@ -22,8 +22,9 @@ int main()
     std::cout << "[1,1]-[8,8]:" << std::endl << "   ";
 
     size_t row_i = 1;
-    auto it      = Matrix<int,0>::Iterator(matrix, {1,1});
-    auto it_end  = Matrix<int,0>::Iterator(matrix, {9,0});
+    auto it      = matrix.find(matrix[1][1]);
+    auto it_end  = matrix.find(matrix[8][8]);
+    it_end++;
     for ( ; it != it_end ; ++it )
     {
         auto [x,y,v] = *it;
@@ -34,7 +35,7 @@ int main()
             std::cout << std::endl << "   ";
         }
 
-        std::cout << v << ' '; //std::cout << x << ',' << y << ':' << v << ' ';
+        std::cout << v << ' ';
     }
     std::cout << std::endl;
 
@@ -45,7 +46,7 @@ int main()
     {
         size_t x;
         size_t y;
-        int    v;
+        decltype(matrix) v;
         std::tie(x,y,v) = c;
         std::cout << "   " << x << y << v << std::endl;
     }
@@ -53,7 +54,7 @@ int main()
     std::cout << std::endl << "((matrix[100][100]=314)=0)=217: ";
 
     ((matrix[100][100]=314)=0)=217;
-    std::cout << matrix[100][100] << std::endl;
+    std::cout << matrix[100][100] << std::endl << std::endl;
 
     return 0;
 }

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['main_50',['main',['../main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main.cpp']]],
-  ['matrix_51',['Matrix',['../classMatrix.html#a31ca7e12d964d975b256ac01a78ba9a6',1,'Matrix']]]
+  ['getfullindex_50',['getFullIndex',['../classMatrix.html#ab094304d8399d6463042b5475418d6fe',1,'Matrix']]],
+  ['getvalue_51',['getValue',['../classMatrix.html#af668c1e39a641b619881f48ade98a10a',1,'Matrix']]]
 ];

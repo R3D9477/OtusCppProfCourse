@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['iterator_11',['Iterator',['../structMatrix_1_1Iterator.html',1,'Matrix&lt; T, DEFAULT_VALUE, DEFAULT_SIZE &gt;::Iterator'],['../structMatrix_1_1Iterator.html#aebc1c476783973dd016d75e25b9c197e',1,'Matrix::Iterator::Iterator()']]]
+  ['find_11',['find',['../classMatrix.html#a5ce5d1ef43f67a693a1cc02ee0e1c135',1,'Matrix']]]
 ];

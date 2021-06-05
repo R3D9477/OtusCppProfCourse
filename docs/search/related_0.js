@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['operator_21_3d_61',['operator!=',['../structMatrix_1_1Iterator.html#a27aed9f3ea67a677964fa51de28a5824',1,'Matrix::Iterator']]]
+  ['operator_3c_3c_64',['operator&lt;&lt;',['../classMatrix.html#ab609998c6c52b39ef4cc1552395a2e18',1,'Matrix']]]
 ];
