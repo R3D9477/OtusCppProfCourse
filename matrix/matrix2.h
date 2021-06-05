@@ -29,6 +29,11 @@ public:
     Matrix (size_t index_ = 0, Matrix* parent_ = nullptr) : index{index_},parent{parent_} { }
     Matrix (T value_) : value{value_} { }
 
+    /*!
+     * \brief operator= реализация канонического опертора присваивания
+     * \param value_ значение выбраного типа элементов
+     * \return ссылка на результирующий элемент матрицы
+     */
     Matrix& operator= (T value_)
     {
         this->value = value_;
@@ -42,6 +47,10 @@ public:
         return *this;
     }
 
+    /*!
+     * \brief getFullIndex метод вычиследния всех индексов ячейки матрицы
+     * \return список всех индексов элемента
+     */
     std::stack<size_t> getFullIndex () const
     {
         std::stack<size_t> indexes;
@@ -58,8 +67,11 @@ public:
         return indexes;
     }
 
-    T getValue () const { return this->value; }
-
+    /*!
+     * \brief operator[] реализация оператора доступа к ячейке матрицы через индекс
+     * \param column_index индекс ячейки матрицы
+     * \return ссылка на ячейку матрицы
+     */
     Matrix& operator[] (size_t column_index)
     {
         Matrix* retmatrix = nullptr;
@@ -98,6 +110,11 @@ public:
         return *retmatrix;
     }
 
+    /*!
+     * \brief operator== реализация оператора сравнения ячеек матрицы
+     * \param matrix второй операнд сравнения
+     * \return результат сравнения ячеек матрицы
+     */
     bool operator== (const Matrix& matrix) const
     {
         bool result = true;
@@ -121,35 +138,67 @@ public:
         return result;
     }
 
+    /*!
+     * \brief operator== реализация сравнения ячейки матрицы со значением
+     * \param value_ второй операнд сравнения
+     * \return результат сравнения ячейки матрицы со значением
+     */
     bool operator== (const T& value_) const
     {
         return this->value == value_;
     }
 
+    /*!
+     * \brief operator!= реализация оператора "не равно" с ячейкой матрицы
+     * \param matrix второй операнд сравнения
+     * \return результат сравнения
+     */
     bool operator!= (const Matrix& matrix) const { return !(*this == matrix); }
 
+    /*!
+     * \brief operator<< оператор выввода ячейки матрицы в поток
+     * \param os поток вывода
+     * \param matrix выводимая ячейка матрицы
+     * \return поток вывода
+     */
     friend std::ostream& operator<< (std::ostream& os, Matrix& matrix)
     {
         return os << matrix.value;
     }
 
+    /*!
+     * \brief begin метод получения начального итератора дочерних ячеек матрицы
+     * \return начальный итератор дочерних ячеек матрицы
+     */
     auto begin()
     {
         this->refresh_cells_buffer();
         return this->cells_buf.begin();
     }
 
+    /*!
+     * \brief end метод получения конечного итератора дочерних ячеек матрицы
+     * \return конечный итератор дочерних ячеек матрицы
+     */
     auto end()
     {
         this->refresh_cells_buffer();
         return this->cells_buf.end();
     }
 
+    /*!
+     * \brief find метод поиска итератора ячейки матрицы
+     * \return итератор искомой ячейки матрицы
+     */
     auto find (Matrix& matrix)
     {
         return std::find(this->begin(), this->end(), matrix.get_cell());
     }
 
+    /*!
+     * \brief size метод получения количества занятых ячеек матрицы
+     * \return количество занятых ячеек матрицы
+     */
     size_t size ()
     {
         this->refresh_cells_buffer();
@@ -158,11 +207,18 @@ public:
 
 private:
 
+    /*!
+     * \brief get_cell метод получения кортежа ячейки матрицы в формате индекс_родителя,индекс_ячейки=значение_ячейки
+     * \return
+     */
     std::tuple<size_t,size_t,Matrix&> get_cell()
     {
         return { this->parent == nullptr ? 0 : this->parent->index, this->index, *this };
     }
 
+    /*!
+     * \brief refresh_cells_buffer рекурсивный метод обновления буфера кортежей дочерних ячеек матрицы
+     */
     void refresh_cells_buffer()
     {
         this->cells_buf.clear();
