@@ -3,18 +3,15 @@
 #include <tuple>
 #include <cassert>
 
-template<typename T>
+template<typename T, std::size_t SIZE = 10>
 struct LAlloc10
 {
     using value_type = T;
 
     template<typename U>
-    struct rebind { using other = LAlloc10<U>; };
+    struct rebind { using other = LAlloc10<U,SIZE>; };
 
-    LAlloc10()
-    {
-        reserve(10);
-    }
+    LAlloc10() = default;
 
     ~LAlloc10()
     {
@@ -22,46 +19,29 @@ struct LAlloc10
     }
 
     template<typename U>
-    LAlloc10(const LAlloc10<U>&) { }
-
-    void reserve (size_t n)
-    {
-        if (this->max_size < n)
-        {
-            if (this->max_size > 0) {
-                if (void* tmp_p = std::realloc(this->buf, n*sizeof(T)))
-                    this->buf = static_cast<T*>(tmp_p);
-                else
-                    throw std::bad_alloc();
-            }
-            else this->buf = new T [n];
-
-            if (!this->buf)
-                throw std::bad_alloc();
-
-            this->max_size = n;
-        }
-    }
+    LAlloc10(const LAlloc10<U,SIZE>&) { }
 
     void clear ()
     {
         if (max_size > 0)
         {
-            this->max_size = 0;
-            this->allocated_size_n = 0;
+            max_size = 0;
+            last_allocated_index = 0;
 
-            delete [] this->buf;
+            delete [] buf;
         }
     }
 
     T* allocate(std::size_t n)
     {
-        if ( (this->allocated_size_n+n-1) >= this->max_size )
+        reserve(SIZE);
+
+        if ( (last_allocated_index+n-1) >= max_size )
             throw std::bad_alloc();
 
-        auto p = &this->buf[this->allocated_size_n];
+        auto p = &buf[last_allocated_index];
 
-        this->allocated_size_n += n;
+        last_allocated_index += n;
 
         return p;
     }
@@ -76,7 +56,31 @@ struct LAlloc10
 
 private:
 
-    T* buf;
+    T* buf = nullptr;
     size_t max_size = 0;
-    size_t allocated_size_n = 0;
+    size_t last_allocated_index = 0;
+
+    void reserve (size_t n)
+    {
+        if (max_size < n)
+        {
+            if (max_size > 0)
+                buf = nullptr; // extend(n)
+            else
+                buf = new T [n];
+
+            if (!buf)
+                throw std::bad_alloc();
+
+            max_size = n;
+        }
+    }
+
+    void extend (size_t n)
+    {
+        if (void* tmp_p = std::realloc(buf, n*sizeof(T)))
+            buf = static_cast<T*>(tmp_p);
+        else
+            throw std::bad_alloc();
+    }
 };
