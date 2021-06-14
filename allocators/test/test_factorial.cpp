@@ -1,6 +1,6 @@
 #define BOOST_TEST_MODULE test_factorial
 
-#include "factorial.h"
+#include "../include/factorial.h"
 
 #include <boost/test/unit_test.hpp>
 

@@ -3,7 +3,7 @@
 #include <vector>
 #include <map>
 
-#include "lalloc10.h"
+#include "../include/lalloc10.h"
 
 #include <boost/test/unit_test.hpp>
 

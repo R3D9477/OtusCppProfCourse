@@ -1,6 +1,6 @@
 #define BOOST_TEST_MODULE test_version
 
-#include "version_lib.h"
+#include "../include/version_lib.h"
 
 #include <boost/test/unit_test.hpp>
 

@@ -27,21 +27,21 @@ public:
 
     CustomContainer ()
     {
-        this->data = std::allocator_traits<A>::allocate(allocator, max_size);
-        this->pos = 0;
+        data = std::allocator_traits<A>::allocate(allocator, max_size);
+        pos = 0;
     }
 
     void push_back (T value)
     {
-        if (this->pos >= max_size)
+        if (pos >= max_size)
             throw std::bad_array_new_length();
 
-        std::allocator_traits<A>::construct(allocator, &this->data[this->pos], value);
-        this->pos++;
+        std::allocator_traits<A>::construct(allocator, &data[pos], value);
+        pos++;
     }
 
-    Iterator begin() { return Iterator(&this->data[0]); }
-    Iterator end()   { return Iterator(&this->data[max_size]); }
+    Iterator begin() { return Iterator(&data[0]); }
+    Iterator end()   { return Iterator(&data[max_size]); }
 
     size_t size () const { return max_size; }
 
@@ -60,12 +60,12 @@ private:
         auto p = std::allocator_traits<A>::allocate(allocator, 1);
         std::allocator_traits<A>::construct(allocator, p, value);
 
-        if (this->first_ptr == nullptr) this->first_ptr = p;
-        else this->last_ptr = p;
+        if (first_ptr == nullptr) first_ptr = p;
+        else last_ptr = p;
     }
 
-    Iterator begin() { return Iterator(this->first_ptr);  }
-    Iterator end()   { return Iterator(this->last_ptr+1); }
+    Iterator begin() { return Iterator(first_ptr);  }
+    Iterator end()   { return Iterator(last_ptr+1); }
 
 private:
 

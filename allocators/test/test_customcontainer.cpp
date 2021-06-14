@@ -1,7 +1,7 @@
 #define BOOST_TEST_MODULE test_customcontainer
 
-#include "lalloc10.h"
-#include "customcontainer.h"
+#include "../include/lalloc10.h"
+#include "../include/customcontainer.h"
 
 #include <boost/test/unit_test.hpp>
 
