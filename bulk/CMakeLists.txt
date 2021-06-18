@@ -4,7 +4,7 @@
 
 cmake_minimum_required(VERSION 3.5)
 
-set(PROJECT_NAME "matrix")
+set(PROJECT_NAME "bulk")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -60,11 +60,11 @@ add_test(test_version test_version)
 
 #------------------------------------------------------------------------------------------------------
 
-add_executable(test_matrix test_matrix.cpp)
-set_target_properties(test_matrix PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
-target_compile_options(test_matrix PRIVATE -Wall -Wextra -pedantic -Werror)
-target_link_libraries(test_matrix ${Boost_LIBRARIES})
-add_test(test_matrix test_matrix)
+add_executable(test_bulk test_bulk.cpp)
+set_target_properties(test_bulk PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
+target_compile_options(test_bulk PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(test_bulk ${Boost_LIBRARIES})
+add_test(test_bulk test_bulk)
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
