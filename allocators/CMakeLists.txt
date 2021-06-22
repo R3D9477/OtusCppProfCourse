@@ -65,6 +65,7 @@ add_test(test_version test_version)
 #------------------------------------------------------------------------------------------------------
 
 add_executable(test_factorial test/test_factorial.cpp)
+target_include_directories(test_factorial PRIVATE include)
 set_target_properties(test_factorial PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
 target_compile_options(test_factorial PRIVATE -Wall -Wextra -pedantic -Werror)
 target_link_libraries(test_factorial ${Boost_LIBRARIES})
