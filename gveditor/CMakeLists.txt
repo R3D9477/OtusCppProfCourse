@@ -39,9 +39,9 @@ target_include_directories(VersionLib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 #------------------------------------------------------------------------------------------------------
 
-add_library(canvas canvas.cpp shape.cpp rectangle.cpp square.cpp triangle.cpp round.cpp)
-target_compile_options(canvas PRIVATE -Wall -Wextra -pedantic -Werror)
-target_link_libraries(${PROJECT_NAME} PRIVATE canvas)
+add_library(shape shape.cpp shapevisitor.cpp rectangle.cpp square.cpp)
+target_compile_options(shape PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(${PROJECT_NAME} PRIVATE shape)
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
@@ -60,7 +60,11 @@ add_test(test_version test_version)
 
 #------------------------------------------------------------------------------------------------------
 
-
+#add_executable(test_bulk test_bulk.cpp)
+#set_target_properties(test_bulk PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
+#target_compile_options(test_bulk PRIVATE -Wall -Wextra -pedantic -Werror)
+#target_link_libraries(test_bulk ${Boost_LIBRARIES})
+#add_test(test_bulk test_bulk)
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------

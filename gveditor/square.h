@@ -1,9 +1,12 @@
 #pragma once
 
+#include "shape.h"
+#include "shapevisitor.h"
 
-class Square
+class Square : public Shape
 {
 public:
-    Square();
+    Square() = default;
+    void draw() const override {  };
+    void accept(ShapeVisitor* visitor) const override { visitor->visit(this); }
 };
-
