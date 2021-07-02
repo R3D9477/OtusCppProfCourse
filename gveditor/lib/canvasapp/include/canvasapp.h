@@ -80,6 +80,11 @@ public:
     void image_save();
 
     void shape_add_new(std::unique_ptr<Shape>&& shape);
+    void shape_add_new_rectangle() { shape_add_new(std::make_unique<Rectangle>()); }
+    void shape_add_new_square() { shape_add_new(std::make_unique<Square>()); }
+    void shape_add_new_round() { shape_add_new(std::make_unique<Round>()); }
+    void shape_add_new_triangle() { shape_add_new(std::make_unique<Triangle>()); }
+
     void selected_shape_remove();
     void selected_shape_set_position();
     void selected_shape_set_size();

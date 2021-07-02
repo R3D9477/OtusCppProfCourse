@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['canvasapp_129',['CanvasApp',['../classCanvasApp.html',1,'']]],
-  ['canvasappstate_130',['CanvasAppState',['../classCanvasAppState.html',1,'']]]
+  ['canvasapp_133',['CanvasApp',['../classCanvasApp.html',1,'']]],
+  ['canvasappstate_134',['CanvasAppState',['../classCanvasAppState.html',1,'']]]
 ];

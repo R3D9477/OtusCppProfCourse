@@ -1,13 +1,7 @@
 /** \file */
 
-#include "rectangle.h"
-#include "square.h"
-#include "round.h"
-#include "triangle.h"
-
 #include "guimousearea.h"
 #include "guibutton.h"
-#include "guicanvas.h"
 
 #include "canvasapp.h"
 
@@ -128,7 +122,7 @@ void set_selected_shape_geometry(CanvasApp& app, std::string size_description)
 void on_btn_shape_add_rectangle_click(CanvasApp& app)
 {
     std::cout << "'Add new rectangle' has been clicked!" << std::endl;
-    app.shape_add_new(std::make_unique<Rectangle>());
+    app.shape_add_new_rectangle();
     set_selected_shape_geometry(app, "width,height");
 }
 
@@ -139,7 +133,7 @@ void on_btn_shape_add_rectangle_click(CanvasApp& app)
 void on_btn_shape_add_square_click(CanvasApp& app)
 {
     std::cout << "'Add new square' has been clicked!" << std::endl;
-    app.shape_add_new(std::make_unique<Square>());
+    app.shape_add_new_square();
     set_selected_shape_geometry(app, "width");
 }
 
@@ -150,7 +144,7 @@ void on_btn_shape_add_square_click(CanvasApp& app)
 void on_btn_shape_add_round_click(CanvasApp& app)
 {
     std::cout << "'Add new round' has been clicked!" << std::endl;
-    app.shape_add_new(std::make_unique<Round>());
+    app.shape_add_new_round();
     set_selected_shape_geometry(app, "radius");
 }
 
@@ -161,7 +155,7 @@ void on_btn_shape_add_round_click(CanvasApp& app)
 void on_btn_shape_add_triangle_click(CanvasApp& app)
 {
     std::cout << "'Add new triangle' has been clicked!" << std::endl;
-    app.shape_add_new(std::make_unique<Triangle>());
+    app.shape_add_new_triangle();
     set_selected_shape_geometry(app, "apex2_x,apex2_y,apex3_x,apex3_y");
 }
 
