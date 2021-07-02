@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['on_5fbtn_5fexit_5fclick_59',['on_btn_exit_click',['../main_8cpp.html#aeb8a5a902a2566762f7c8032957b933d',1,'main.cpp']]],
+  ['on_5fbtn_5fimage_5fnew_5fclick_60',['on_btn_image_new_click',['../main_8cpp.html#a5c1c392e24e8cc9c1aa76d8467c1393d',1,'main.cpp']]],
+  ['on_5fbtn_5fimage_5fopen_5fclick_61',['on_btn_image_open_click',['../main_8cpp.html#a3c490a66ba4f141da5182ea00a870844',1,'main.cpp']]],
+  ['on_5fbtn_5fimage_5fsave_5fclick_62',['on_btn_image_save_click',['../main_8cpp.html#a0fc4363e0a74776897a92da1d75c82af',1,'main.cpp']]],
+  ['on_5fbtn_5fshape_5fadd_5frectangle_5fclick_63',['on_btn_shape_add_rectangle_click',['../main_8cpp.html#a63333e36c04b425dbb8d0f9a417d0482',1,'main.cpp']]],
+  ['on_5fbtn_5fshape_5fadd_5fround_5fclick_64',['on_btn_shape_add_round_click',['../main_8cpp.html#a7adc426a5892d89b4a07398222a5edb9',1,'main.cpp']]],
+  ['on_5fbtn_5fshape_5fadd_5fsquare_5fclick_65',['on_btn_shape_add_square_click',['../main_8cpp.html#a1900e0ad3f1ec612ffa24ffcaf562b46',1,'main.cpp']]],
+  ['on_5fbtn_5fshape_5fadd_5ftriangle_5fclick_66',['on_btn_shape_add_triangle_click',['../main_8cpp.html#aed0f9cc7b7900b80dd87d68bfe8425e5',1,'main.cpp']]],
+  ['on_5fbtn_5fshape_5fremove_5fclick_67',['on_btn_shape_remove_click',['../main_8cpp.html#a7ab08317e492ae23d3b33b024b145463',1,'main.cpp']]],
+  ['on_5fbtn_5fshape_5fset_5fposition_5fclick_68',['on_btn_shape_set_position_click',['../main_8cpp.html#a348f8b29430add8031792230fc2746d0',1,'main.cpp']]],
+  ['on_5fbtn_5fshape_5fset_5fsize_5fclick_69',['on_btn_shape_set_size_click',['../main_8cpp.html#a6b31e9e20a7cb8dda4f9139192f068ca',1,'main.cpp']]],
+  ['on_5fimage_5fname_70',['on_image_name',['../main_8cpp.html#ae9c81ba0c6272d6e58af9fe80a975533',1,'main.cpp']]],
+  ['on_5fimage_5fname_5fsetter_71',['on_image_name_setter',['../classCanvasApp.html#ad2b32831006948d4c28e655bdf92a8aa',1,'CanvasApp']]],
+  ['on_5fimage_5fopen_72',['on_image_open',['../main_8cpp.html#a191a139860211a4a74c9ca47297c7df9',1,'main.cpp']]],
+  ['on_5fimage_5fopen_5fhandler_73',['on_image_open_handler',['../classCanvasApp.html#ae20b40a43d2b35bae2622c94140cafcd',1,'CanvasApp']]],
+  ['on_5fimage_5fsave_74',['on_image_save',['../main_8cpp.html#a247965a3ece213f53ef622e8def2f319',1,'main.cpp']]],
+  ['on_5fimage_5fsave_5fhandler_75',['on_image_save_handler',['../classCanvasApp.html#a69deb596e0bfe8f1b87edb9d99472555',1,'CanvasApp']]],
+  ['onclick_76',['onClick',['../classGuiComponent.html#a68b0aed775cefcf91ba1a4f84e19db4f',1,'GuiComponent']]]
+];
