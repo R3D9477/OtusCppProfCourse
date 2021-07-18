@@ -19,14 +19,6 @@ int main(int argc, const char* argv[])
         in_buf << cmd << std::endl;
     receive(context, in_buf);
 
-    //...enter data to in_buf
-    //...
-    //receive(context, in_buf);
-
-    //...enter data to in_buf
-    //...
-    //receive(context, in_buf);
-
     std::this_thread::sleep_for(1s);
 
     disconnect(std::move(context));
