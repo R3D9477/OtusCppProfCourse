@@ -114,7 +114,9 @@ add_test(test_libasync test_libasync)
 #------------------------------------------------------------------------------------------------------
 # DEPLOYMENT
 
-install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+#install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+install(TARGETS libasync DESTINATION /usr/lib)
+install(FILES ${INC_LIBASYNC}/async.h DESTINATION include)
 
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
@@ -124,9 +126,6 @@ set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 set(CPACK_PACKAGE_CONTACT r3d9477@gmail.com)
 
 include(CPack)
-
-#install(TARGETS libasync DESTINATION /usr/lib)
-#install(FILES ${INC_LIBASYNC}/async.h DESTINATION include)
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
