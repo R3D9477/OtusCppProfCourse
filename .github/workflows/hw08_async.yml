@@ -1,12 +1,12 @@
-name: "Homework 06 (bulk)"
+name: "Homework 08 (async)"
 
 on:
   push:
     branches:
-      - "hw06"
+      - "hw08"
 
 env:
-  app_dir: "bulk"
+  app_dir: "libasync"
 
 jobs:
   build:
