@@ -6,7 +6,7 @@ on:
       - "hw08"
 
 env:
-  app_dir: "libasync"
+  app_dir: "async"
 
 jobs:
   build:

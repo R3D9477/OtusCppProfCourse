@@ -13,6 +13,9 @@
 #include <fstream>
 #include <sstream>
 
+#include <filesystem>
+namespace fs = std::filesystem;
+
 #include <chrono>
 using namespace std::chrono;
 
@@ -119,17 +122,17 @@ private:
         {
             std::lock_guard fname_locker(m_fname_mutex);
 
-            /*if ((bulk_f_name + ".log" exists))
+            if (fs::exists(bulk_f_name+".log"))
             {
                 bulk_f_name += "-";
                 size_t f_name_index = 0;
-                for (; f_name_index < 1000000 && (bulk_f_name + to_string(f_name_index) + ".log" exists) ; ++f_name_index)
+                for (; f_name_index < 1000000 && fs::exists(bulk_f_name+std::to_string(f_name_index)+".log") ; ++f_name_index)
                     ;
                 if (f_name_index == 1000000)
                     throw "Unable to create unique file!";
                 else
                     bulk_f_name += std::to_string(f_name_index);
-            }*/
+            }
 
             bulk_f.open(bulk_f_name + ".log");
         }
