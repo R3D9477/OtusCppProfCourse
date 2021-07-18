@@ -114,7 +114,7 @@ add_test(test_libasync test_libasync)
 #------------------------------------------------------------------------------------------------------
 # DEPLOYMENT
 
-#install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
 install(TARGETS libasync DESTINATION /usr/lib)
 install(FILES ${INC_LIBASYNC}/async.h DESTINATION include)
 
