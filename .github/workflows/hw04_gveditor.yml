@@ -3,7 +3,7 @@ name: "Homework 04 (gveditor)"
 on:
   push:
     branches:
-      - "hw04"
+      - "hw04.mvc"
 
 env:
   app_dir: "gveditor"
