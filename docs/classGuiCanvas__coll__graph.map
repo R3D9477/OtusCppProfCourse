@@ -1,7 +1,0 @@
-<map id="GuiCanvas" name="GuiCanvas">
-<area shape="rect" id="node1" title=" " alt="" coords="51,247,137,273"/>
-<area shape="rect" id="node2" href="$classGuiComponent.html" title=" " alt="" coords="39,171,149,197"/>
-<area shape="rect" id="node3" href="$classGuiObserver.html" title=" " alt="" coords="5,81,100,108"/>
-<area shape="rect" id="node4" href="$classGuiMouseArea.html" title=" " alt="" coords="124,81,232,108"/>
-<area shape="rect" id="node5" href="$classGuiObservable.html" title=" " alt="" coords="124,5,232,32"/>
-</map>

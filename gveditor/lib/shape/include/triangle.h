@@ -44,4 +44,5 @@ public:
     {
         return { {m_x2,m_y2}, {m_x3,m_y3} };
     }
+    std::string get_shape_name() const override { return "Triangle"; }
 };

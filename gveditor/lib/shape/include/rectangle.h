@@ -28,5 +28,6 @@ public:
     }
     void set_size(std::pair<int,int> size) { m_width = size.first; m_height = size.second; }
     std::pair<int,int> get_size() const { return {m_width,m_height}; }
+    std::string get_shape_name() const override { return "Rectangle"; }
 };
 

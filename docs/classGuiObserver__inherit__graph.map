@@ -1,6 +1,0 @@
-<map id="GuiObserver" name="GuiObserver">
-<area shape="rect" id="node1" title=" " alt="" coords="51,5,146,32"/>
-<area shape="rect" id="node2" href="$classGuiComponent.html" title=" " alt="" coords="44,80,153,107"/>
-<area shape="rect" id="node3" href="$classGuiButton.html" title=" " alt="" coords="5,155,85,181"/>
-<area shape="rect" id="node4" href="$classGuiCanvas.html" title=" " alt="" coords="110,155,197,181"/>
-</map>

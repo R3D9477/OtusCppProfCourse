@@ -21,7 +21,7 @@ endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-add_executable(${PROJECT_NAME} src/main.cpp)
+add_executable(${PROJECT_NAME} "src/main.cpp")
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Werror)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -30,15 +30,15 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 #------------------------------------------------------------------------------------------------------
 # LIBRARIES
 
-set(INC_VER lib/version/include)
-set(SRC_VER lib/version/src)
+set(INC_VER "lib/version/include")
+set(SRC_VER "lib/version/src")
 
 add_library(
     version
-    ${SRC_VER}/version_lib.cpp
+    "${SRC_VER}/version_lib.cpp"
 )
 
-target_include_directories(version PUBLIC ${INC_VER})
+target_include_directories(version PUBLIC "${INC_VER}")
 target_compile_options(version PRIVATE -Wall -Wextra -pedantic -Werror)
 target_link_libraries(${PROJECT_NAME} PRIVATE version)
 
@@ -48,17 +48,17 @@ target_include_directories(version PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 #------------------------------------------------------------------------------------------------------
 
-set(INC_SHAPE lib/shape/include)
-set(SRC_SHAPE lib/shape/src)
+set(INC_SHAPE "lib/shape/include")
+set(SRC_SHAPE "lib/shape/src")
 
 add_library(
     shape
-    ${SRC_SHAPE}/shape.cpp
-    ${SRC_SHAPE}/rectangle.cpp
-    ${SRC_SHAPE}/square.cpp
-    ${SRC_SHAPE}/round.cpp
-    ${SRC_SHAPE}/triangle.cpp
-    ${SRC_SHAPE}/shapeserializer.cpp
+    "${SRC_SHAPE}/shape.cpp"
+    "${SRC_SHAPE}/rectangle.cpp"
+    "${SRC_SHAPE}/square.cpp"
+    "${SRC_SHAPE}/round.cpp"
+    "${SRC_SHAPE}/triangle.cpp"
+    "${SRC_SHAPE}/shapeserializer.cpp"
 )
 
 target_include_directories(shape PUBLIC ${INC_SHAPE})
@@ -67,36 +67,17 @@ target_link_libraries(${PROJECT_NAME} PRIVATE shape)
 
 #------------------------------------------------------------------------------------------------------
 
-set(INC_GUI lib/gui/include)
-set(SRC_GUI lib/gui/src)
+set(INC_PICTURE "lib/picture/include")
+set(SRC_PICTURE "lib/picture/src")
 
 add_library(
-    gui
-    ${SRC_GUI}/guimousearea.cpp
-    ${SRC_GUI}/guicomponent.cpp
-    ${SRC_GUI}/guibutton.cpp
-    ${SRC_GUI}/guicanvas.cpp
+    picture
+    "${SRC_PICTURE}/picture.cpp"
 )
 
-target_include_directories(gui PUBLIC ${INC_SHAPE} ${INC_GUI})
-target_compile_options(gui PRIVATE -Wall -Wextra -pedantic -Werror)
-target_link_libraries(${PROJECT_NAME} PRIVATE gui)
-
-#------------------------------------------------------------------------------------------------------
-
-set(INC_CANVASAPP lib/canvasapp/include)
-set(SRC_CANVASAPP lib/canvasapp/src)
-
-add_library(
-    canvasapp
-    ${SRC_CANVASAPP}/canvasapp.cpp
-    ${SRC_CANVASAPP}/canvasapp_state_saved.cpp
-    ${SRC_CANVASAPP}/canvasapp_state_changed.cpp
-)
-
-target_include_directories(canvasapp PUBLIC ${INC_SHAPE} ${INC_GUI} ${INC_CANVASAPP})
-target_compile_options(canvasapp PRIVATE -Wall -Wextra -pedantic -Werror)
-target_link_libraries(${PROJECT_NAME} PRIVATE canvasapp)
+target_include_directories(picture PUBLIC ${INC_SHAPE} ${INC_PICTURE})
+target_compile_options(picture PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(${PROJECT_NAME} PRIVATE picture)
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
@@ -107,11 +88,11 @@ enable_testing()
 
 #------------------------------------------------------------------------------------------------------
 
-set(SRC_TEST_VER lib/version/test)
+set(SRC_TEST_VER "lib/version/test")
 
 add_executable(
    test_version
-   ${SRC_TEST_VER}/test_version.cpp
+   "${SRC_TEST_VER}/test_version.cpp"
 )
 
 target_include_directories(test_version PUBLIC ${INC_VER})
@@ -123,11 +104,11 @@ add_test(test_version test_version)
 
 #------------------------------------------------------------------------------------------------------
 
-set(SRC_TEST_SHAPE lib/shape/test)
+set(SRC_TEST_SHAPE "lib/shape/test")
 
 add_executable(
    test_shape
-   ${SRC_TEST_SHAPE}/test_shape.cpp
+   "${SRC_TEST_SHAPE}/test_shape.cpp"
 )
 
 target_include_directories(test_shape PUBLIC ${INC_SHAPE})
@@ -139,19 +120,19 @@ add_test(test_shape test_shape)
 
 #------------------------------------------------------------------------------------------------------
 
-set(SRC_TEST_GUI lib/gui/test)
+set(SRC_TEST_PICTURE "lib/picture/test")
 
 add_executable(
-   test_gui
-   ${SRC_TEST_GUI}/test_gui.cpp
+   test_picture
+   "${SRC_TEST_PICTURE}/test_picture.cpp"
 )
 
-target_include_directories(test_gui PUBLIC ${INC_GUI})
-set_target_properties(test_gui PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
-target_compile_options(test_gui PRIVATE -Wall -Wextra -pedantic -Werror)
-target_link_libraries(test_gui PRIVATE ${Boost_LIBRARIES} gui)
+target_include_directories(test_picture PUBLIC ${INC_PICTURE})
+set_target_properties(test_picture PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
+target_compile_options(test_picture PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(test_picture PRIVATE ${Boost_LIBRARIES} picture)
 
-add_test(test_gui test_gui)
+add_test(test_picture test_picture)
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
@@ -164,7 +145,7 @@ set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 
-set(CPACK_PACKAGE_CONTACT example@example.com)
+set(CPACK_PACKAGE_CONTACT r3d9477@gmail.com)
 
 include(CPack)
 

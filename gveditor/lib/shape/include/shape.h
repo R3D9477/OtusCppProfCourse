@@ -31,4 +31,5 @@ public:
     virtual void accept(ShapeVisitor& visitor) = 0;
     virtual void draw(std::ostream& data_out) const = 0;
     virtual bool is_inside(const std::pair<int,int> position) const = 0;
+    virtual std::string get_shape_name() const = 0;
 };

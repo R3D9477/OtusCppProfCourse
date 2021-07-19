@@ -26,4 +26,5 @@ public:
     }
     void set_radius(int radius) { m_radius = radius; }
     int get_radius() const { return m_radius; }
+    std::string get_shape_name() const override { return "Round"; }
 };

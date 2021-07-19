@@ -26,4 +26,5 @@ public:
     }
     void set_size(int width) { m_width = width; }
     int get_size() const { return m_width; }
+    std::string get_shape_name() const override { return "Square"; }
 };

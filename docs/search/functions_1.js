@@ -1,4 +1,0 @@
-var searchData=
-[
-  ['boost_5fauto_5ftest_5fcase_187',['BOOST_AUTO_TEST_CASE',['../test__gui_8cpp.html#ad26cd454b223a432ca33df4067d77ee1',1,'BOOST_AUTO_TEST_CASE(test_button_click):&#160;test_gui.cpp'],['../test__gui_8cpp.html#a78f3481bd05669db8dc47077eeef70ef',1,'BOOST_AUTO_TEST_CASE(test_canvas_add_shape):&#160;test_gui.cpp'],['../test__gui_8cpp.html#a6c4d7b57a83fa8de443ad45186bc4fea',1,'BOOST_AUTO_TEST_CASE(test_canvas_click_and_select_shape):&#160;test_gui.cpp'],['../test__gui_8cpp.html#a7506f1632c8275a6cf2440d330c885b7',1,'BOOST_AUTO_TEST_CASE(test_canvas_click_and_remove_select_shape):&#160;test_gui.cpp'],['../test__shape_8cpp.html#a29585df21094f2dff11408d1c69696aa',1,'BOOST_AUTO_TEST_CASE(test_shape_serialization):&#160;test_shape.cpp'],['../test__version_8cpp.html#a5a8f1e117b104260d857ed534915b417',1,'BOOST_AUTO_TEST_CASE(test_valid_version):&#160;test_version.cpp']]]
-];
