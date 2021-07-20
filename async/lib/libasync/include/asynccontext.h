@@ -84,34 +84,31 @@ private:
             {
                 while (m_is_started.load())
                 {
-                    if (!m_worker_file1_in_progress.load())
-                    {
-                        if (m_worker_file1.joinable())
-                            m_worker_file1.join();
-                        m_worker_file1 = std::thread([this,bulk_buf](){
-                            m_worker_file1_in_progress.store(true);
-                            fwriter_proc(bulk_buf);
-                            m_worker_file1_in_progress.store(false);
-                        });
-                        break;
-                    }
-                    else if (!m_worker_file2_in_progress.load())
-                    {
-                        if (m_worker_file2.joinable())
-                            m_worker_file2.join();
-                        m_worker_file2 = std::thread([this,bulk_buf](){
-                            m_worker_file2_in_progress.store(true);
-                            fwriter_proc(bulk_buf);
-                            m_worker_file2_in_progress.store(false);
-                        });
-                        break;
-                    }
+                    if (launch_fwriter(m_worker_file1, m_worker_file1_in_progress, bulk_buf)) break;
+                    if (launch_fwriter(m_worker_file2, m_worker_file2_in_progress, bulk_buf)) break;
+                    std::this_thread::sleep_for(1ms);
                 }
                 print_bulk(m_log_buf, std::move(bulk_buf));
             }
 
             std::this_thread::sleep_for(1ms);
         }
+    }
+
+    bool launch_fwriter(std::thread& fthr, std::atomic_bool& fthr_busy, std::vector<std::string> data)
+    {
+        if (!fthr_busy.load())
+        {
+            if (fthr.joinable())
+                fthr.join();
+            fthr = std::thread([this,&fthr_busy,data](){
+                fthr_busy.store(true);
+                fwriter_proc(data);
+                fthr_busy.store(false);
+            });
+            return true;
+        }
+        return false;
     }
 
     void fwriter_proc(std::vector<std::string> bulk)
