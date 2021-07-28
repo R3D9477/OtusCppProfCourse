@@ -23,23 +23,41 @@ public:
 
 class Observable
 {
-    std::vector<Observer*> m_observers;
+    std::vector<std::unique_ptr<Observer>> m_observers;
+
 public:
 
-    void add_observer(Observer* observer)
+    void subscribe(std::unique_ptr<Observer>&& obs_p)
     {
-        m_observers.emplace_back(std::move(observer));
+        m_observers.emplace_back(std::move(obs_p));
     }
+
+    void unsubscribe(std::unique_ptr<Observer>&& obs_p)
+    {
+        auto obs_p_buf  = std::move(obs_p);
+        auto obs_p_iter = std::find(m_observers.begin(), m_observers.end(), obs_p_buf);
+
+        if (obs_p_iter != m_observers.end())
+        {
+            (*obs_p_iter).release();
+            m_observers.erase(obs_p_iter);
+        }
+
+        obs_p_buf.release();
+    }
+
     void notify_draw()
     {
-        for (auto& obs: m_observers)
-            obs->draw();
+        for (auto& obs_p: m_observers)
+            if (obs_p)
+                obs_p->draw();
     }
 };
 
 class PictureModel: public Observable
 {
     std::vector<std::unique_ptr<Shape>> m_shapes;
+
 public:
 
     PictureModel() { clear(); }
@@ -88,14 +106,18 @@ class PictureView_Console: public Observer
 {
     PictureModel& m_model;
     std::ostream& m_out;
+
 public:
 
     PictureView_Console(PictureModel& model, std::ostream& out = std::cout): m_model{model}, m_out{out}
     {
-        m_model.add_observer(this);
+        m_model.subscribe(std::unique_ptr<Observer>(this));
     }
 
-    ~PictureView_Console() = default;
+    ~PictureView_Console()
+    {
+        m_model.unsubscribe(std::unique_ptr<Observer>(this));
+    }
 
     virtual void draw()
     {
