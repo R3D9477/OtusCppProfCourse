@@ -72,7 +72,6 @@ private:
 
             {
                 std::lock_guard m_bulks_lock(m_bulks_mutex);
-
                 if (!m_bulks.empty())
                 {
                     bulk_buf = std::move(m_bulks.front());
