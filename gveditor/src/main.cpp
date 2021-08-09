@@ -91,7 +91,7 @@ int main()
 {
     PictureModel pic_model;
 
-    PictureView_Console pic_view_c{pic_model};
+    auto p = PictureView_Console::create(pic_model);
 
     PictureController_File pic_ctrl_f{pic_model};
     PictureController_Console pic_ctrl_c{pic_model};
@@ -108,6 +108,8 @@ int main()
 
     on_save_picture_file(pic_ctrl_f);
     on_load_picture_file(pic_ctrl_f);
+
+    pic_model.unsubscribe(p);
 
     return 0;
 }

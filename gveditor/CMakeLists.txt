@@ -19,12 +19,16 @@ else()
     project(${PROJECT_NAME} LANGUAGES CXX VERSION 0.0.1)
 endif()
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_executable(${PROJECT_NAME} "src/main.cpp")
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Werror)
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin")
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin")
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin")
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
@@ -38,11 +42,11 @@ add_library(
     "${SRC_VER}/version_lib.cpp"
 )
 
-target_include_directories(version PUBLIC "${INC_VER}")
+target_include_directories(version PUBLIC ${INC_VER})
 target_compile_options(version PRIVATE -Wall -Wextra -pedantic -Werror)
 target_link_libraries(${PROJECT_NAME} PRIVATE version)
 
-configure_file(version.h.in version.h)
+configure_file("${INC_VER}/version.h.in"   "${CMAKE_BINARY_DIR}/version.h")
 target_include_directories(version PRIVATE "${CMAKE_BINARY_DIR}")
 target_include_directories(version PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 

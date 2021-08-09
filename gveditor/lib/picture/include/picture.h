@@ -6,6 +6,7 @@
 #include <memory>
 #include <sstream>
 #include <iostream>
+#include <algorithm>
 
 #include "round.h"
 #include "square.h"
@@ -23,34 +24,32 @@ public:
 
 class Observable
 {
-    std::vector<std::unique_ptr<Observer>> m_observers;
+    std::vector<std::weak_ptr<Observer>> m_observers;
 
 public:
 
-    void subscribe(std::unique_ptr<Observer>&& obs_p)
+    void subscribe(std::shared_ptr<Observer> obs_p)
     {
-        m_observers.emplace_back(std::move(obs_p));
+        m_observers.push_back(obs_p);
     }
 
-    void unsubscribe(std::unique_ptr<Observer>&& obs_p)
+    void unsubscribe(std::shared_ptr<Observer> observer)
     {
-        auto obs_p_buf  = std::move(obs_p);
-        auto obs_p_iter = std::find(m_observers.begin(), m_observers.end(), obs_p_buf);
-
-        if (obs_p_iter != m_observers.end())
-        {
-            (*obs_p_iter).release();
-            m_observers.erase(obs_p_iter);
-        }
-
-        obs_p_buf.release();
+        m_observers.erase(
+            std::remove_if(
+                m_observers.begin(),
+                m_observers.end(),
+                [&](const auto& wptr) { return wptr.expired() || wptr.lock() == observer; }
+            ),
+            m_observers.end()
+        );
     }
 
     void notify_draw()
     {
         for (auto& obs_p: m_observers)
-            if (obs_p)
-                obs_p->draw();
+            if (auto sp = obs_p.lock())
+                sp->draw();
     }
 };
 
@@ -109,15 +108,14 @@ class PictureView_Console: public Observer
 
 public:
 
-    PictureView_Console(PictureModel& model, std::ostream& out = std::cout): m_model{model}, m_out{out}
+    static auto create(PictureModel& model, std::ostream& out = std::cout)
     {
-        m_model.subscribe(std::unique_ptr<Observer>(this));
+        auto sp = std::make_shared<PictureView_Console>(model, out);
+        sp->m_model.subscribe(sp);
+        return sp;
     }
 
-    ~PictureView_Console()
-    {
-        m_model.unsubscribe(std::unique_ptr<Observer>(this));
-    }
+    PictureView_Console(PictureModel& model, std::ostream& out = std::cout): m_model{model}, m_out{out} { }
 
     virtual void draw()
     {
@@ -136,7 +134,9 @@ class PictureController_Console
     PictureModel& m_model;
     std::unique_ptr<ShapeVisitor> m_shape_resizer;
     std::istream& m_in;
+
 public:
+
     PictureController_Console(PictureModel& model, std::istream& in = std::cin): m_model{model}, m_in{in}
     {
         m_shape_resizer = std::make_unique<ShapeResizer>(m_in);
@@ -147,7 +147,9 @@ public:
     void add_new_triangle()     { add_new_shape(std::make_unique<Triangle>());  }
     void remove_firt_shape()    { m_model.remove_shape(m_model.begin());      }
     void remove_last_shape()    { m_model.remove_shape(m_model.rbegin());     }
+
 private:
+
     void add_new_shape(std::unique_ptr<Shape>&& new_shape)
     {
         std::cout << std::endl << std::endl;
