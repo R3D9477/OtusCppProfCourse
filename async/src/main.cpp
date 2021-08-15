@@ -21,7 +21,7 @@ int main(int argc, const char* argv[])
 
     std::this_thread::sleep_for(1s);
 
-    disconnect(std::move(context));
+    disconnect(context);
 
     return 0;
 }

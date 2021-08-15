@@ -7,7 +7,8 @@
 #include <iostream>
 
 #include "asynccontext.h"
+#include "asynclogger.h"
 
-std::unique_ptr<AsyncContext> connect(const size_t block_size, std::ostream& log_buf = std::cout);
-void receive(std::unique_ptr<AsyncContext>& context, std::istream& in_buf);
-void disconnect(std::unique_ptr<AsyncContext>&& context);
+AsyncContext* connect(const size_t block_size);
+void receive(AsyncContext* context, std::istream& in_buf);
+void disconnect(AsyncContext* context);

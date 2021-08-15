@@ -2,17 +2,19 @@
 
 #include "async.h"
 
-std::unique_ptr<AsyncContext> connect(const size_t block_size, std::ostream& log_buf)
+AsyncContext* connect(const size_t block_size)
 {
-    return std::make_unique<AsyncContext>(block_size, log_buf);
+    return new AsyncContext(block_size);
 }
 
-void receive(std::unique_ptr<AsyncContext>& context, std::istream& in_buff)
+void receive(AsyncContext* context, std::istream& in_buff)
 {
     context->receive(in_buff);
+    AsyncLogger::get().push_context(context);
 }
 
-void disconnect(std::unique_ptr<AsyncContext>&& context)
+void disconnect(AsyncContext* context)
 {
-    context.~unique_ptr();
+    delete context;
+    //context.~unique_ptr();
 }

@@ -59,6 +59,8 @@ add_library(
     libasync SHARED
     "${SRC_LIBASYNC}/bulk.cpp"
     "${SRC_LIBASYNC}/async.cpp"
+    "${SRC_LIBASYNC}/asyncpool.cpp"
+    "${SRC_LIBASYNC}/asynclogger.cpp"
     "${SRC_LIBASYNC}/asynccontext.cpp"
 )
 
@@ -106,7 +108,7 @@ add_executable(
 target_include_directories(test_libasync PUBLIC ${INC_LIBASYNC})
 set_target_properties(test_libasync PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
 target_compile_options(test_libasync PRIVATE -Wall -Wextra -pedantic -Werror)
-target_link_libraries(test_libasync PRIVATE ${Boost_LIBRARIES} libasync)
+target_link_libraries(test_libasync PRIVATE ${Boost_LIBRARIES} libasync pthread)
 
 add_test(test_libasync test_libasync)
 

@@ -34,8 +34,9 @@ BOOST_AUTO_TEST_CASE(test_get_bulks)
     in_buf << "cmd7" << std::endl;
 
     std::stringstream out_buf;
+    AsyncLogger::get().set_output_buffer(&out_buf);
 
-    auto context = connect(3, out_buf);
+    auto context = connect(3);
     receive(context, in_buf);
     std::this_thread::sleep_for(1s);
     disconnect(std::move(context));
