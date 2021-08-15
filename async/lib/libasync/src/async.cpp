@@ -1,20 +1,36 @@
 /** \file */
 
+#include <iostream>
+#include <sstream>
+
 #include "async.h"
+#include "asynccontext.h"
+#include "asynclogger.h"
 
-AsyncContext* connect(const size_t block_size)
+namespace async
 {
-    return new AsyncContext(block_size);
+
+handle_t connect(std::size_t bulk)
+{
+    return new AsyncContext(bulk);
 }
 
-void receive(AsyncContext* context, std::istream& in_buff)
+void receive(handle_t handle, const char *data, std::size_t size)
 {
-    context->receive(in_buff);
-    AsyncLogger::get().push_context(context);
+    if (handle)
+    {
+        std::stringstream in_buff;
+        in_buff.write(data,size);
+
+        ((AsyncContext*)(handle))->receive(in_buff);
+        AsyncLogger::get().push_context(((AsyncContext*)(handle)));
+    }
 }
 
-void disconnect(AsyncContext* context)
+void disconnect(handle_t handle)
 {
-    delete context;
-    //context.~unique_ptr();
+    if (handle)
+        delete ((AsyncContext*)(handle));
+}
+
 }

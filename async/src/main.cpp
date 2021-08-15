@@ -1,7 +1,9 @@
 /** \file */
 
-#include <sstream>
 #include <iostream>
+#include <thread>
+#include <chrono>
+#include <string.h>
 
 #include "async.h"
 
@@ -11,17 +13,16 @@
  */
 int main(int argc, const char* argv[])
 {
-    std::stringstream in_buf;
+    const char* data = "cmd1\ncmd2\ncmd3\ncmd4";
+    const size_t size = strlen(data);
 
-    auto context = connect( (argc > 2 ? atoi(argv[1]) : 3) );
+    auto context = async::connect( (argc > 2 ? atoi(argv[1]) : 3) );
 
-    for ( std::string cmd; std::getline(std::cin, cmd) && !cmd.empty(); )
-        in_buf << cmd << std::endl;
-    receive(context, in_buf);
+    async::receive(context, data, size);
 
-    std::this_thread::sleep_for(1s);
+    std::this_thread::sleep_for(std::chrono::seconds(1));
 
-    disconnect(context);
+    async::disconnect(context);
 
     return 0;
 }
