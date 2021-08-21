@@ -3,7 +3,7 @@ name: "Homework 09 (bulk_server)"
 on:
   push:
     branches:
-      - "hw08"
+      - "hw09"
 
 env:
   app_dir: "bulk_server"
