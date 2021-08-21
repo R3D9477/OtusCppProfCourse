@@ -4,7 +4,7 @@
 
 cmake_minimum_required(VERSION 3.5)
 
-set(PROJECT_NAME "async")
+set(PROJECT_NAME "bulk_server")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -44,6 +44,7 @@ add_library(
 
 target_include_directories(version PUBLIC ${INC_VER})
 target_compile_options(version PRIVATE -Wall -Wextra -pedantic -Werror)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE version)
 
 configure_file("${INC_VER}/version.h.in"   "${CMAKE_BINARY_DIR}/version.h")
@@ -66,12 +67,31 @@ add_library(
 
 target_include_directories(libasync PUBLIC ${INC_LIBASYNC})
 target_compile_options(libasync PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(libasync pthread)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE libasync pthread)
 
 set_target_properties(libasync PROPERTIES OUTPUT_NAME "async")
 set_target_properties(libasync PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(libasync PROPERTIES PUBLIC_HEADER "${INC_LIBASYNC}/async.h")
 configure_file("${INC_LIBASYNC}/async.h" "${CMAKE_BINARY_DIR}/async.h")
+
+#------------------------------------------------------------------------------------------------------
+
+set(INC_BULKSERVER "lib/bulkserver/include")
+set(SRC_BULKSERVER "lib/bulkserver/src")
+
+add_library(
+    bulkserver
+    "${SRC_BULKSERVER}/bulkconnection.cpp"
+    "${SRC_BULKSERVER}/bulkserver.cpp"
+)
+
+target_include_directories(bulkserver PUBLIC ${INC_BULKSERVER} ${Boost_INCLUDE_DIRS})
+target_compile_options(bulkserver PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(bulkserver libasync ${Boost_LIBRARIES} pthread)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE bulkserver)
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
@@ -108,9 +128,25 @@ add_executable(
 target_include_directories(test_libasync PUBLIC ${INC_LIBASYNC})
 set_target_properties(test_libasync PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
 target_compile_options(test_libasync PRIVATE -Wall -Wextra -pedantic -Werror)
-target_link_libraries(test_libasync PRIVATE ${Boost_LIBRARIES} libasync pthread)
+target_link_libraries(test_libasync PRIVATE ${Boost_LIBRARIES} libasync)
 
 add_test(test_libasync test_libasync)
+
+#------------------------------------------------------------------------------------------------------
+
+set(SRC_TEST_BULKSERVER "lib/bulkserver/test")
+
+add_executable(
+    test_bulkserver
+    "${SRC_TEST_BULKSERVER}/test_bulkserver.cpp"
+)
+
+target_include_directories(test_bulkserver PUBLIC ${INC_BULKSERVER})
+set_target_properties(test_bulkserver PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
+target_compile_options(test_bulkserver PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(test_bulkserver PRIVATE ${Boost_LIBRARIES} bulkserver)
+
+add_test(test_bulkserver test_bulkserver)
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
