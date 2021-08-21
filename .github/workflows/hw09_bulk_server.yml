@@ -1,4 +1,4 @@
-name: "Homework 08 (async)"
+name: "Homework 09 (bulk_server)"
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - "hw08"
 
 env:
-  app_dir: "async"
+  app_dir: "bulk_server"
 
 jobs:
   build:
