@@ -61,8 +61,6 @@ BOOST_AUTO_TEST_CASE(test_add_shapes)
     Draw Round r:15 at {100,105}
     Draw Triangle apex1:{295,305}, apex2:{340,345}, apex3:{400,300}
 )") );
-
-    pic_model.unsubscribe(p);
 }
 
 BOOST_AUTO_TEST_CASE(test_remove_shapes)
@@ -102,8 +100,6 @@ BOOST_AUTO_TEST_CASE(test_remove_shapes)
     Draw Rectangle 50x100 at {30,40}
     Draw Round r:15 at {100,105}
 )") );
-
-    pic_model.unsubscribe(p);
 }
 
 }

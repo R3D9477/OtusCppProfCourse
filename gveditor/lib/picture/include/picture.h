@@ -33,18 +33,6 @@ public:
         m_observers.push_back(obs_p);
     }
 
-    void unsubscribe(std::shared_ptr<Observer> observer)
-    {
-        m_observers.erase(
-            std::remove_if(
-                m_observers.begin(),
-                m_observers.end(),
-                [&](const auto& wptr) { return wptr.expired() || wptr.lock() == observer; }
-            ),
-            m_observers.end()
-        );
-    }
-
     void notify_draw()
     {
         for (auto& obs_p: m_observers)
