@@ -28,7 +28,7 @@ class Observable
 
 public:
 
-    void subscribe(std::shared_ptr<Observer> obs_p)
+    void subscribe(std::weak_ptr<Observer> obs_p)
     {
         m_observers.push_back(obs_p);
     }
