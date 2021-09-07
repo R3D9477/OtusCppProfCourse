@@ -10,15 +10,15 @@ int main(int argc, const char* argv[])
 {
     try
     {
-        boost::asio::io_service io_service;
+        boost::asio::io_context io_context;
 
         BulkServer s(
-            io_service,
+            io_context,
             (argc > 2 ? atoi(argv[1]) : 9000),
             (argc > 3 ? atoi(argv[2]) : 3)
         );
 
-        io_service.run();
+        io_context.run();
     }
     catch (std::exception& e)
     {
