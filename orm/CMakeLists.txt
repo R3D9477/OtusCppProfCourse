@@ -4,7 +4,7 @@
 
 cmake_minimum_required(VERSION 3.5)
 
-set(PROJECT_NAME "async")
+set(PROJECT_NAME "eorm")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -52,26 +52,23 @@ target_include_directories(version PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 #------------------------------------------------------------------------------------------------------
 
-set(INC_LIBASYNC "lib/libasync/include")
-set(SRC_LIBASYNC "lib/libasync/src")
+set(INC_LIBEORM "lib/eorm/include")
+set(SRC_LIBEORM "lib/eorm/src")
 
 add_library(
-    libasync SHARED
-    "${SRC_LIBASYNC}/bulk.cpp"
-    "${SRC_LIBASYNC}/async.cpp"
-    "${SRC_LIBASYNC}/asyncpool.cpp"
-    "${SRC_LIBASYNC}/asynclogger.cpp"
-    "${SRC_LIBASYNC}/asynccontext.cpp"
+    libeorm SHARED
+    "${SRC_LIBEORM}/sqlgen.cpp"
 )
 
-target_include_directories(libasync PUBLIC ${INC_LIBASYNC})
-target_compile_options(libasync PRIVATE -Wall -Wextra -pedantic -Werror)
-target_link_libraries(${PROJECT_NAME} PRIVATE libasync pthread)
+target_include_directories(libeorm PUBLIC ${INC_LIBEORM})
+target_compile_options(libeorm PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(${PROJECT_NAME} PRIVATE libeorm pthread)
 
-set_target_properties(libasync PROPERTIES OUTPUT_NAME "async")
-set_target_properties(libasync PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties(libasync PROPERTIES PUBLIC_HEADER "${INC_LIBASYNC}/async.h")
-configure_file("${INC_LIBASYNC}/async.h" "${CMAKE_BINARY_DIR}/async.h")
+set_target_properties(libeorm PROPERTIES OUTPUT_NAME "eorm")
+set_target_properties(libeorm PROPERTIES VERSION ${PROJECT_VERSION})
+
+set_target_properties(libeorm PROPERTIES PUBLIC_HEADER "${INC_LIBEORM}/eorm.h")
+configure_file("${INC_LIBEORM}/eorm.h" "${CMAKE_BINARY_DIR}/eorm.h")
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
@@ -91,6 +88,7 @@ add_executable(
 
 target_include_directories(test_version PUBLIC ${INC_VER})
 set_target_properties(test_version PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
+
 target_compile_options(test_version PRIVATE -Wall -Wextra -pedantic -Werror)
 target_link_libraries(test_version PRIVATE ${Boost_LIBRARIES} version)
 
@@ -98,36 +96,37 @@ add_test(test_version test_version)
 
 #------------------------------------------------------------------------------------------------------
 
-set(SRC_TEST_LIBASYNC "lib/libasync/test")
+#set(SRC_TEST_LIBASYNC "lib/libasync/test")
 
-add_executable(
-    test_libasync
-    "${SRC_TEST_LIBASYNC}/test_bulk.cpp"
-)
+#add_executable(
+#    test_libasync
+#    "${SRC_TEST_LIBASYNC}/test_bulk.cpp"
+#)
 
-target_include_directories(test_libasync PUBLIC ${INC_LIBASYNC})
-set_target_properties(test_libasync PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
-target_compile_options(test_libasync PRIVATE -Wall -Wextra -pedantic -Werror)
-target_link_libraries(test_libasync PRIVATE ${Boost_LIBRARIES} libasync pthread)
+#target_include_directories(test_libasync PUBLIC ${INC_LIBASYNC})
+#set_target_properties(test_libasync PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
 
-add_test(test_libasync test_libasync)
+#target_compile_options(test_libasync PRIVATE -Wall -Wextra -pedantic -Werror)
+#target_link_libraries(test_libasync PRIVATE ${Boost_LIBRARIES} libasync pthread)
+
+#add_test(test_libasync test_libasync)
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
 # DEPLOYMENT
 
-install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
-install(TARGETS libasync DESTINATION /usr/lib)
-install(FILES ${INC_LIBASYNC}/async.h DESTINATION include)
+#install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+#install(TARGETS libasync DESTINATION /usr/lib)
+#install(FILES ${INC_LIBASYNC}/async.h DESTINATION include)
 
-set(CPACK_GENERATOR DEB)
-set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
-set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
-set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+#set(CPACK_GENERATOR DEB)
+#set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+#set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+#set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 
-set(CPACK_PACKAGE_CONTACT r3d9477@gmail.com)
+#set(CPACK_PACKAGE_CONTACT r3d9477@gmail.com)
 
-include(CPack)
+#include(CPack)
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
