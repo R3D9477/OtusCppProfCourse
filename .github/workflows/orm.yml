@@ -1,12 +1,12 @@
-name: "Homework 08 (async)"
+name: "Final Homework (orm)"
 
 on:
   push:
     branches:
-      - "hw08"
+      - "orm"
 
 env:
-  app_dir: "async"
+  app_dir: "orm"
 
 jobs:
   build:

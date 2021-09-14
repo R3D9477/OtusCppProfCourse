@@ -56,19 +56,28 @@ set(INC_LIBEORM "lib/eorm/include")
 set(SRC_LIBEORM "lib/eorm/src")
 
 add_library(
-    libeorm SHARED
-    "${SRC_LIBEORM}/sqlgen.cpp"
+    libeorm
+    "${SRC_LIBEORM}/eorm_table.cpp"
+    "${SRC_LIBEORM}/eorm_tablecolumn.cpp"
 )
 
 target_include_directories(libeorm PUBLIC ${INC_LIBEORM})
 target_compile_options(libeorm PRIVATE -Wall -Wextra -pedantic -Werror)
-target_link_libraries(${PROJECT_NAME} PRIVATE libeorm pthread)
+target_link_libraries(${PROJECT_NAME} PRIVATE libeorm)
 
-set_target_properties(libeorm PROPERTIES OUTPUT_NAME "eorm")
-set_target_properties(libeorm PROPERTIES VERSION ${PROJECT_VERSION})
+#------------------------------------------------------------------------------------------------------
 
-set_target_properties(libeorm PROPERTIES PUBLIC_HEADER "${INC_LIBEORM}/eorm.h")
-configure_file("${INC_LIBEORM}/eorm.h" "${CMAKE_BINARY_DIR}/eorm.h")
+set(INC_LIBEORM_SQLITE "lib/eorm_sqlite/include")
+set(SRC_LIBEORM_SQLITE "lib/eorm_sqlite/src")
+
+add_library(
+    libeorm_sqlite
+    "${SRC_LIBEORM_SQLITE}/eorm_sqlite.cpp"
+)
+
+target_include_directories(libeorm_sqlite PUBLIC ${INC_LIBEORM_SQLITE})
+target_compile_options(libeorm_sqlite PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(${PROJECT_NAME} PRIVATE libeorm_sqlite)
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
@@ -96,37 +105,52 @@ add_test(test_version test_version)
 
 #------------------------------------------------------------------------------------------------------
 
-#set(SRC_TEST_LIBASYNC "lib/libasync/test")
+set(SRC_TEST_EORM "lib/eorm/test")
 
-#add_executable(
-#    test_libasync
-#    "${SRC_TEST_LIBASYNC}/test_bulk.cpp"
-#)
+add_executable(
+    test_eorm
+    "${SRC_TEST_EORM}/test_eorm.cpp"
+)
 
-#target_include_directories(test_libasync PUBLIC ${INC_LIBASYNC})
-#set_target_properties(test_libasync PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
+target_include_directories(test_eorm PUBLIC ${INC_LIBEORM})
+set_target_properties(test_eorm PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
 
-#target_compile_options(test_libasync PRIVATE -Wall -Wextra -pedantic -Werror)
-#target_link_libraries(test_libasync PRIVATE ${Boost_LIBRARIES} libasync pthread)
+target_compile_options(test_eorm PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(test_eorm PRIVATE ${Boost_LIBRARIES} libeorm)
 
-#add_test(test_libasync test_libasync)
+add_test(test_eorm test_eorm)
+
+#------------------------------------------------------------------------------------------------------
+
+set(SRC_TEST_EORM_SQLITE "lib/eorm_sqlite/test")
+
+add_executable(
+    test_eorm_sqlite
+    "${SRC_TEST_EORM_SQLITE}/test_eorm_sqlite.cpp"
+)
+
+target_include_directories(test_eorm_sqlite PUBLIC ${INC_LIBEORM_SQLITE})
+set_target_properties(test_eorm_sqlite PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
+
+target_compile_options(test_eorm_sqlite PRIVATE -Wall -Wextra -pedantic -Werror)
+target_link_libraries(test_eorm_sqlite PRIVATE ${Boost_LIBRARIES} libeorm_sqlite)
+
+add_test(test_eorm_sqlite test_eorm_sqlite)
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
 # DEPLOYMENT
 
-#install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
-#install(TARGETS libasync DESTINATION /usr/lib)
-#install(FILES ${INC_LIBASYNC}/async.h DESTINATION include)
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
 
-#set(CPACK_GENERATOR DEB)
-#set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
-#set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+set(CPACK_GENERATOR DEB)
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 #set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 
-#set(CPACK_PACKAGE_CONTACT r3d9477@gmail.com)
+set(CPACK_PACKAGE_CONTACT r3d9477@gmail.com)
 
-#include(CPack)
+include(CPack)
 
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
