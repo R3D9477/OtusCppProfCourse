@@ -1,3 +1,5 @@
+/** \file */
+
 #pragma once
 
 #include <ctime>
@@ -219,8 +221,7 @@ struct Table
             sqlBufValues.clear();
         }
 
-        sqlBuf.seekp(-1, sqlBuf.cur);
-        sqlBuf << '\0';
+        pop_back(sqlBuf);
 
         return { sqlBuf.str() };
     }
@@ -241,7 +242,6 @@ struct Table
                     sqlBuf << std::endl << c->getSqlName() << '=' << c->getSqlRowValue(rowIndex) << ',';
 
             sqlBuf.seekp(-1, sqlBuf.cur);
-            sqlBuf<<'\0';
 
             if (condition.expr != "")
                 sqlBuf << std::endl << "WHERE " << condition;
@@ -255,9 +255,7 @@ struct Table
             sqlBuf << ';' << std::endl;
         }
 
-        sqlBuf.seekp(-1, sqlBuf.cur);
-        sqlBuf << '\0';
-
+        pop_back(sqlBuf);
         return { sqlBuf.str() };
     }
 
@@ -309,7 +307,6 @@ struct Table
                 sqlBuf << ',';
             }
             sqlBuf.seekp(-1, sqlBuf.cur);
-            sqlBuf << '\0';
         }
 
         if (count > 0)

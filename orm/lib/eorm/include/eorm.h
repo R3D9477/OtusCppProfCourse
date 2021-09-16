@@ -1,3 +1,5 @@
+/** \file */
+
 #ifndef EORM
 #define EORM
 

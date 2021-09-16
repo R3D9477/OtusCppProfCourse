@@ -1,4 +1,10 @@
+/** \file */
+
 #pragma once
+
+#include <ctime>
+#include <string>
+#include <type_traits>
 
 namespace eorm {
 
@@ -13,7 +19,7 @@ enum TableColumnType
 template <typename T>
 static TableColumnType getTableColumnType()
 {
-            if (std::is_same<T, std::time_t>::value)   return TableColumnType::DATETIME;
+         if (std::is_same<T, std::time_t>::value)   return TableColumnType::DATETIME;
     else if (std::is_same<T, float>::value)         return TableColumnType::REAL;
     else if (std::is_same<T, double>::value)        return TableColumnType::REAL;
     else if (std::is_same<T, bool>::value)          return TableColumnType::INTEGER;

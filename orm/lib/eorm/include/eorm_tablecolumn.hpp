@@ -1,3 +1,5 @@
+/** \file */
+
 #pragma once
 
 #include "eorm_table.hpp"
@@ -35,7 +37,10 @@ struct TableColumn: Table::TableColumnBase
     void clearRows() override { this->data.clear(); }
 
     void addRowPtr(const std::shared_ptr<void> rowPtr) override
-    { if (rowPtr != nullptr) this->data.push_back(*(std::static_pointer_cast<T>(rowPtr))); }
+    {
+        if (rowPtr)
+            this->data.push_back(*(std::static_pointer_cast<T>(rowPtr)));
+    }
 
     SqlExpr getSqlRowValue(size_t rowIndex = 0) const override
     {

@@ -1,3 +1,5 @@
+/** \file */
+
 #pragma once
 
 #include "eorm_sqlstrdata.hpp"
