@@ -2,12 +2,15 @@
 
 #pragma once
 
+#include <cstdlib>
+
 #include "eorm_table.hpp"
 
 namespace eorm {
+namespace core {
 
 template<typename T>
-struct TableColumn: Table::TableColumnBase
+class TableColumn: public TableColumnBase
 {
     static_assert(
         !( std::is_same<T, bool>::value
@@ -20,6 +23,8 @@ struct TableColumn: Table::TableColumnBase
     );
 
     std::vector<T> data;
+
+public:
 
     TableColumn (const SqlName& name = {}, TCS specs = TCS::EMPTY)
     {
@@ -36,11 +41,27 @@ struct TableColumn: Table::TableColumnBase
     size_t getRowsCount() const override { return this->data.size(); }
     void clearRows() override { this->data.clear(); }
 
+    void addRowStr(const char* rowStr) override
+    {
+        if (rowStr)
+        {
+            if constexpr (std::is_same<T,bool>::value || std::is_same<T,int>::value)
+                addRowPtr(std::make_shared<T>(T(std::stoi(rowStr))));
+            else if constexpr (std::is_floating_point<T>::value)
+                addRowPtr(std::make_shared<T>(T(std::stod(rowStr))));
+            else if constexpr (std::is_same<T,std::time_t>::value)
+                addRowPtr(std::make_shared<T>(T(std::stol(rowStr))));
+            else if constexpr (std::is_same<T,std::string>::value)
+                addRowPtr(std::make_shared<T>(T(rowStr)));
+        }
+    }
     void addRowPtr(const std::shared_ptr<void> rowPtr) override
     {
         if (rowPtr)
             this->data.push_back(*(std::static_pointer_cast<T>(rowPtr)));
     }
+
+    T getRowValue(const size_t rowIndex = 0) const { return (rowIndex < data.size()) ? data[rowIndex] : T(); }
 
     SqlExpr getSqlRowValue(size_t rowIndex = 0) const override
     {
@@ -100,19 +121,19 @@ struct TableColumn: Table::TableColumnBase
         return { sqlBuf.str() };
     }
 
-    inline TableColumnComparsionExpr operator>  (const SqlName& second) const { return Table::TableColumnBase::operator>(second);  }
-    inline TableColumnComparsionExpr operator<  (const SqlName& second) const { return Table::TableColumnBase::operator<(second);  }
-    inline TableColumnComparsionExpr operator== (const SqlName& second) const { return Table::TableColumnBase::operator==(second); }
-    inline TableColumnComparsionExpr operator!= (const SqlName& second) const { return Table::TableColumnBase::operator!=(second); }
-    inline TableColumnComparsionExpr IN         (const SqlName& second) const { return Table::TableColumnBase::IN(second); }
+    inline TableColumnComparsionExpr operator>  (const SqlName& second) const { return TableColumnBase::operator>(second);  }
+    inline TableColumnComparsionExpr operator<  (const SqlName& second) const { return TableColumnBase::operator<(second);  }
+    inline TableColumnComparsionExpr operator== (const SqlName& second) const { return TableColumnBase::operator==(second); }
+    inline TableColumnComparsionExpr operator!= (const SqlName& second) const { return TableColumnBase::operator!=(second); }
+    inline TableColumnComparsionExpr IN         (const SqlName& second) const { return TableColumnBase::IN(second); }
 
-    inline TableColumnComparsionExpr operator>  (const TableColumnBase& second) const { return Table::TableColumnBase::operator>(second);  }
-    inline TableColumnComparsionExpr operator<  (const TableColumnBase& second) const { return Table::TableColumnBase::operator<(second);  }
-    inline TableColumnComparsionExpr operator== (const TableColumnBase& second) const { return Table::TableColumnBase::operator==(second); }
-    inline TableColumnComparsionExpr operator!= (const TableColumnBase& second) const { return Table::TableColumnBase::operator!=(second); }
-    inline TableColumnComparsionExpr IN         (const TableColumnBase& second) const { return Table::TableColumnBase::IN(second); }
+    inline TableColumnComparsionExpr operator>  (const TableColumnBase& second) const { return TableColumnBase::operator>(second);  }
+    inline TableColumnComparsionExpr operator<  (const TableColumnBase& second) const { return TableColumnBase::operator<(second);  }
+    inline TableColumnComparsionExpr operator== (const TableColumnBase& second) const { return TableColumnBase::operator==(second); }
+    inline TableColumnComparsionExpr operator!= (const TableColumnBase& second) const { return TableColumnBase::operator!=(second); }
+    inline TableColumnComparsionExpr IN         (const TableColumnBase& second) const { return TableColumnBase::IN(second); }
 
-    inline TableColumnComparsionExpr IN (const TableColumnComparsionExpr& second) const { return Table::TableColumnBase::IN(second); }
+    inline TableColumnComparsionExpr IN (const TableColumnComparsionExpr& second) const { return TableColumnBase::IN(second); }
 
     TableColumnComparsionExpr operator> (const T& second) const
     { return static_cast<TableColumnComparsionExpr>(*this) > static_cast<TableColumnComparsionExpr>(TableColumn<T>(second));  }
@@ -127,4 +148,5 @@ struct TableColumn: Table::TableColumnBase
     { return static_cast<TableColumnComparsionExpr>(*this) != static_cast<TableColumnComparsionExpr>(TableColumn<T>(second)); }
 };
 
+}
 }

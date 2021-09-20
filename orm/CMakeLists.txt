@@ -75,7 +75,10 @@ add_library(
     "${SRC_LIBEORM_SQLITE}/eorm_sqlite.cpp"
 )
 
-target_include_directories(libeorm_sqlite PUBLIC ${INC_LIBEORM_SQLITE})
+find_package (SQLite3)
+target_link_libraries (libeorm_sqlite libeorm ${SQLite3_LIBRARIES})
+
+target_include_directories(libeorm_sqlite PUBLIC ${INC_LIBEORM_SQLITE} ${SQLite3_INCLUDE_DIRS})
 target_compile_options(libeorm_sqlite PRIVATE -Wall -Wextra -pedantic -Werror)
 target_link_libraries(${PROJECT_NAME} PRIVATE libeorm_sqlite)
 
@@ -146,7 +149,7 @@ install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
-#set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 
 set(CPACK_PACKAGE_CONTACT r3d9477@gmail.com)
 

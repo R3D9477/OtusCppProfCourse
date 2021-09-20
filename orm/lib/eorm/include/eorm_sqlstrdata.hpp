@@ -5,6 +5,7 @@
 #include "eorm_strutils.hpp"
 
 namespace eorm {
+namespace core {
 
 struct SqlStrData
 {
@@ -15,4 +16,5 @@ struct SqlStrData
     friend std::ostream& operator<< (std::ostream &out, const SqlStrData& value_) { out << value_.value; return out; }
 };
 
+}
 }

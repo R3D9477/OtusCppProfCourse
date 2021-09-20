@@ -1,6 +1,7 @@
 #pragma once
 
 namespace eorm {
+namespace core {
 
 enum TableColumnSpecs
 {
@@ -18,4 +19,5 @@ static bool is_AUTOINCREMENT   (TableColumnSpecs specs) { return ( specs & AUTOI
 static bool is_NOT_NULL        (TableColumnSpecs specs) { return ( specs & NOT_NULL      ); }
 static bool is_DEFAULT         (TableColumnSpecs specs) { return ( specs & DEFAULT       ); }
 
+}
 }

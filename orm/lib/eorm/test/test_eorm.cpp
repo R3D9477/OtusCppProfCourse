@@ -6,7 +6,7 @@
 
 #include "eorm.h"
 
-using namespace eorm;
+using namespace eorm::core;
 
 struct Table1Info: Table
 {
@@ -115,11 +115,11 @@ BOOST_AUTO_TEST_CASE(test_generate_sql_insert_values)
     Table1.addRow(1, 45.6, std::time_t(1631730839), "YYY", 56.7f, 8.88f);
 
     std::stringstream ValidSql(R"(INSERT INTO Table1 (
-Table1.C1,
-Table1.C2,
-Table1.COLUMN_3,
-Table1.COLUMN_4,
-Table1.COLUMN_5
+C1,
+C2,
+COLUMN_3,
+COLUMN_4,
+COLUMN_5
 )
 VALUES (
 1.230000,
@@ -129,11 +129,11 @@ VALUES (
 31.400000
 );
 INSERT INTO Table1 (
-Table1.C1,
-Table1.C2,
-Table1.COLUMN_3,
-Table1.COLUMN_4,
-Table1.COLUMN_5
+C1,
+C2,
+COLUMN_3,
+COLUMN_4,
+COLUMN_5
 )
 VALUES (
 45.600000,
@@ -156,11 +156,11 @@ BOOST_AUTO_TEST_CASE(test_generate_sql_update)
     Table1.addRow(0, 45.6, std::time_t(1631730839), "YYY", 56.7f, 8.88f);
 
     std::stringstream ValidSql(R"(UPDATE Table1 SET
-Table1.C1=45.600000,
-Table1.C2=1631730839,
-Table1.COLUMN_3='YYY',
-Table1.COLUMN_4=56.700001,
-Table1.COLUMN_5=8.880000
+C1=45.600000,
+C2=1631730839,
+COLUMN_3='YYY',
+COLUMN_4=56.700001,
+COLUMN_5=8.880000
 WHERE ((Table1.ID) = (0));)");
 
     auto ResultSql = Table1.getSqlRowsUpdate( Table1.ID == 0 );
@@ -171,11 +171,11 @@ WHERE ((Table1.ID) = (0));)");
     Table1.addRow(1, 1.23, std::time_t(1631730839), "XXX", 3.14f, 31.4f);
 
     ValidSql.str(R"(UPDATE Table1 SET
-Table1.C1=1.230000,
-Table1.C2=1631730839,
-Table1.COLUMN_3='XXX',
-Table1.COLUMN_4=3.140000,
-Table1.COLUMN_5=31.400000
+C1=1.230000,
+C2=1631730839,
+COLUMN_3='XXX',
+COLUMN_4=3.140000,
+COLUMN_5=31.400000
 WHERE ((Table1.ID) = (1));)");
 
     ResultSql = Table1.getSqlRowsUpdate( Table1.ID == 1 );

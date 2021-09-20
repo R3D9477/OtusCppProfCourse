@@ -4,8 +4,10 @@
 
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 namespace eorm {
+namespace core {
 
 template<typename T>
 typename std::enable_if<std::is_fundamental<T>::value,
@@ -41,14 +43,44 @@ typename std::enable_if<!std::is_same<T, const char*>::value,
     return expr_.empty() ? expr_ : expr_[expr_.size()-1] == ';' ? expr_.substr(0,expr_.size()-1) : expr_;
 }
 
-[[maybe_unused]] static void pop_back(std::stringstream& stream)
+[[maybe_unused]] static std::stringstream& pop_back(std::stringstream& stream)
 {
     stream.str(stream.str().erase(long(stream.tellp())-1));
+    return stream;
 }
 
-[[maybe_unused]] static void pop_back(std::ostringstream& stream)
+[[maybe_unused]] static std::ostringstream& pop_back(std::ostringstream& stream)
 {
     stream.str(stream.str().erase(long(stream.tellp())-1));
+    return stream;
 }
 
+[[maybe_unused]] static std::string& ltrim(std::string &s)
+{
+    auto it = std::find_if(
+        s.begin(),
+        s.end(),
+        [](char c) { return !std::isspace<char>(c, std::locale::classic()); }
+    );
+    s.erase(s.begin(), it);
+    return s;
+}
+
+[[maybe_unused]] static std::string& rtrim(std::string &s)
+{
+    auto it = std::find_if(
+        s.rbegin(),
+        s.rend(),
+        [](char c) { return !std::isspace<char>(c, std::locale::classic()); }
+    );
+    s.erase(it.base(), s.end());
+    return s;
+}
+
+[[maybe_unused]] static std::string& trim(std::string &s)
+{
+    return ltrim(rtrim(s));
+}
+
+}
 }

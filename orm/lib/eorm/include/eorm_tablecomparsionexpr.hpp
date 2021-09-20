@@ -9,6 +9,7 @@
 #include "eorm_sqlstrdata.hpp"
 
 namespace eorm {
+namespace core {
 
 struct TableColumnComparsionExpr
 {
@@ -53,4 +54,5 @@ struct TableColumnComparsionExpr
 
 typedef TableColumnComparsionExpr TCCE;
 
+}
 }

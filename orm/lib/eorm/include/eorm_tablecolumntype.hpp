@@ -7,6 +7,7 @@
 #include <type_traits>
 
 namespace eorm {
+namespace core {
 
 enum TableColumnType
 {
@@ -31,4 +32,5 @@ static TableColumnType getTableColumnType()
 
 typedef TableColumnType TCT;
 
+}
 }
