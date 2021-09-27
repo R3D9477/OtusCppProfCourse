@@ -5,5 +5,4 @@
 
 #include "eorm_tablecolumn.hpp"
 
-
 #endif

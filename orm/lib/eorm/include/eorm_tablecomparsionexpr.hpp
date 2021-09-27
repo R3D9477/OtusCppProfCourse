@@ -15,11 +15,17 @@ struct TableColumnComparsionExpr
 {
     std::string expr;
 
-    TableColumnComparsionExpr (const std::string& expr_ = ""): expr(expr_ == "" ? "" : '(' + removeSqlDelimiter(expr_) + ')') { }
+    TableColumnComparsionExpr (const std::string& expr_ = ""):
+        expr(expr_ == "" ? "" : '(' + removeSqlDelimiter(expr_) + ')')
+    { }
 
-    TableColumnComparsionExpr (const SqlName& sqlName_): expr(sqlName_.value) { }
+    TableColumnComparsionExpr (const SqlName& sqlName_):
+        expr(sqlName_.value)
+    { }
 
-    TableColumnComparsionExpr (const SqlExpr& nestedExpr_): TableColumnComparsionExpr(nestedExpr_.value) { }
+    TableColumnComparsionExpr (const SqlExpr& nestedExpr_):
+        TableColumnComparsionExpr(nestedExpr_.value)
+    { }
 
     TableColumnComparsionExpr __getExpr(const std::string& op) const
     {
@@ -36,7 +42,9 @@ struct TableColumnComparsionExpr
     }
 
     TableColumnComparsionExpr __getExpr(const std::string& second, const std::string& op) const
-    { return __getExpr(TableColumnComparsionExpr(second), op); }
+    {
+        return __getExpr(TableColumnComparsionExpr(second), op);
+    }
 
     inline TableColumnComparsionExpr operator>  (const TableColumnComparsionExpr& second) const { return __getExpr(second, ">");   }
     inline TableColumnComparsionExpr operator<  (const TableColumnComparsionExpr& second) const { return __getExpr(second, "<");   }

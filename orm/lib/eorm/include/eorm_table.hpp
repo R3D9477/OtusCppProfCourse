@@ -13,6 +13,7 @@
 #include "eorm_tablecomparsionexpr.hpp"
 #include "eorm_tablecolumntype.hpp"
 #include "eorm_tablecolumnspecs.hpp"
+#include "eorm_exception.hpp"
 
 namespace eorm {
 namespace core {
@@ -43,6 +44,7 @@ public:
     virtual void clearRows () {}
     virtual void addRowStr (const char* rowStr) { std::ignore = rowStr; }
     virtual void addRowPtr (const std::shared_ptr<void> rowPtr) { std::ignore = rowPtr; }
+    virtual void removeLastValue() {}
 
     virtual bool is_PRIMARY_KEY     () const { return eorm::core::is_PRIMARY_KEY(this->columnSpecs);   }
     virtual bool is_AUTOINCREMENT   () const { return eorm::core::is_AUTOINCREMENT(this->columnSpecs); }
@@ -160,7 +162,8 @@ public:
     template<typename... T>
     void addRow(T&&... t)
     {
-        assert(this->tableColumns.size() == sizeof...(T));
+        if (this->tableColumns.size() != sizeof...(T))
+            throw ValuesCountException{};
 
         size_t colBuf = 0;
         (void)std::initializer_list<int>{(addRow(colBuf++, std::forward<T>(t)), void(), 0)...};
@@ -169,11 +172,16 @@ public:
     template <typename T>
     void addRow(size_t colIndex, const T val)
     {
-        assert(colIndex < this->tableColumns.size());
+        if (colIndex >= this->tableColumns.size())
+            throw ValuesCountException{};
 
         auto buf = stdstr_or_type(val);
 
-        assert(getTableColumnType<typeof(buf)>() == this->tableColumns[colIndex]->columnType);
+        if (getTableColumnType<typeof(buf)>() != this->tableColumns[colIndex]->columnType)
+        {
+            std::for_each_n(this->tableColumns.begin(), colIndex, [](auto& column){ if (column) column->removeLastValue(); });
+            throw ValueTypeException{colIndex};
+        }
 
         this->tableColumns[colIndex]->addRowPtr(std::make_shared<typeof(buf)>(buf));
     }

@@ -9,7 +9,7 @@ namespace core {
 
 struct SqlName: SqlStrData
 {
-    SqlName(const std::string& value_ = ""): SqlStrData(value_){}
+    SqlName(const std::string& value_ = ""): SqlStrData{value_} {}
 };
 
 }

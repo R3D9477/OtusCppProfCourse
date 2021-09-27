@@ -23,7 +23,7 @@ public:
     using Table::addRow;
     using Table::clearRows;
 
-    SqliteTable(const SqlName& name, const SqliteDatabase& db): Table(name), sqliteDatabase{db} { }
+    SqliteTable(const SqlName& name, const SqliteDatabase& db): Table{name}, sqliteDatabase{db} { }
 
     bool createTable() const
     {

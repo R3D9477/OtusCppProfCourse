@@ -60,6 +60,7 @@ public:
         if (rowPtr)
             this->data.push_back(*(std::static_pointer_cast<T>(rowPtr)));
     }
+    void removeLastValue() override { data.pop_back(); }
 
     T getRowValue(const size_t rowIndex = 0) const { return (rowIndex < data.size()) ? data[rowIndex] : T(); }
 

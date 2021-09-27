@@ -8,14 +8,14 @@ using namespace eorm::sqlite;
 
 struct MyTableInfo: SqliteTable
 {
-    TableColumn<int>          ID = { SqlName("ID"), TCS(TCS::PRIMARY_KEY|TCS::AUTOINCREMENT) };
-    TableColumn<double>       C1 = { SqlName("C1"), TCS::DEFAULT, 3.14 };
-    TableColumn<std::time_t>  C2 = { SqlName("C2"), TCS(TCS::DEFAULT|TCS::NOT_NULL) };
-    TableColumn<std::string>  C3 = { TCS::DEFAULT };
-    TableColumn<float>        C4 = { 5.65f };
+    TableColumn<int>          ID { {"ID"}, TCS(TCS::PRIMARY_KEY|TCS::AUTOINCREMENT) };
+    TableColumn<double>       C1 { {"C1"}, TCS::DEFAULT, 3.14 };
+    TableColumn<std::time_t>  C2 { {"C2"}, TCS(TCS::DEFAULT|TCS::NOT_NULL) };
+    TableColumn<std::string>  C3 { TCS::DEFAULT };
+    TableColumn<float>        C4 { 5.65f };
     TableColumn<float>        C5;
 
-    MyTableInfo(const SqliteDatabase& db): SqliteTable(SqlName("MyTable"), db)
+    MyTableInfo(const SqliteDatabase& db): SqliteTable({"MyTable"}, db)
     {
         registerColumns(ID, C1, C2, C3, C4, C5);
     }
@@ -25,9 +25,9 @@ BOOST_AUTO_TEST_SUITE(test_eorm)
 
 BOOST_AUTO_TEST_CASE(test_eorm_sqlite_create_and_drop_table)
 {
-    SqliteDatabase db("my.db");
+    SqliteDatabase db{"my.db"};
 
-    MyTableInfo tbl(db);
+    MyTableInfo tbl{db};
 
     BOOST_CHECK( !tbl.dropTable() );
 
@@ -42,20 +42,20 @@ BOOST_AUTO_TEST_CASE(test_eorm_sqlite_create_and_drop_table)
 
 BOOST_AUTO_TEST_CASE(test_eorm_sqlite_insert_rows)
 {
-    SqliteDatabase db("my.db");
+    SqliteDatabase db{"my.db"};
 
-    MyTableInfo tbl(db);
+    MyTableInfo tbl{db};
     tbl.dropTable();
 
     BOOST_CHECK( tbl.createTable() );
 
     tbl.clearRows();
-    tbl.addRow(0, 0.314, time_t(0), "Row 01", 44.1f, 55.23f);
-    tbl.addRow(1, 3.140, time_t(0), "Row 02", 44.1f, 55.23f);
-    tbl.addRow(2, 31.40, time_t(0), "Row 03", 44.1f, 55.23f);
-    tbl.addRow(3, 31.40, time_t(0), "Row 04", 44.1f, 55.23f);
-    tbl.addRow(4, 31.40, time_t(0), "Row 05", 44.1f, 55.23f);
-    tbl.addRow(5, 31.40, time_t(0), "Row 06", 44.1f, 55.23f);
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 0.314, time_t(0), "Row 01", 44.1f, 55.23f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(1, 3.140, time_t(0), "Row 02", 44.1f, 55.23f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(2, 31.40, time_t(0), "Row 03", 44.1f, 55.23f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(3, 31.40, time_t(0), "Row 04", 44.1f, 55.23f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(4, 31.40, time_t(0), "Row 05", 44.1f, 55.23f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(5, 31.40, time_t(0), "Row 06", 44.1f, 55.23f) );
 
     BOOST_CHECK( tbl.insertRows() );
 
@@ -64,18 +64,18 @@ BOOST_AUTO_TEST_CASE(test_eorm_sqlite_insert_rows)
 
 BOOST_AUTO_TEST_CASE(test_eorm_sqlite_insert_and_count_rows)
 {
-    SqliteDatabase db("my.db");
-    MyTableInfo tbl(db);
+    SqliteDatabase db{"my.db"};
+    MyTableInfo tbl{db};
 
     BOOST_CHECK( tbl.createTable() );
 
     tbl.clearRows();
-    tbl.addRow(0, 0.314, time_t(0), "Row 01", 44.1f, 55.23f);
-    tbl.addRow(1, 3.140, time_t(0), "Row 02", 44.1f, 55.23f);
-    tbl.addRow(2, 31.40, time_t(0), "Row 03", 44.1f, 55.23f);
-    tbl.addRow(3, 31.40, time_t(0), "Row 04", 44.1f, 55.23f);
-    tbl.addRow(4, 31.40, time_t(0), "Row 05", 44.1f, 55.23f);
-    tbl.addRow(5, 31.40, time_t(0), "Row 06", 44.1f, 55.23f);
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 0.314, time_t(0), "Row 01", 44.1f, 55.23f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(1, 3.140, time_t(0), "Row 02", 44.1f, 55.23f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(2, 31.40, time_t(0), "Row 03", 44.1f, 55.23f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(3, 31.40, time_t(0), "Row 04", 44.1f, 55.23f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(4, 31.40, time_t(0), "Row 05", 44.1f, 55.23f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(5, 31.40, time_t(0), "Row 06", 44.1f, 55.23f) );
 
     BOOST_CHECK( tbl.insertRows() );
 
@@ -94,19 +94,19 @@ BOOST_AUTO_TEST_CASE(test_eorm_sqlite_insert_and_count_rows)
 
 BOOST_AUTO_TEST_CASE(test_eorm_sqlite_insert_and_select_all_rows)
 {
-    SqliteDatabase db("my.db");
+    SqliteDatabase db{"my.db"};
 
-    MyTableInfo tbl(db);
+    MyTableInfo tbl{db};
     tbl.dropTable();
 
     BOOST_CHECK( tbl.createTable() );
 
     tbl.clearRows();
-    tbl.addRow(0, 1.111, time_t(1631730831), "Row 01", 1.1f, 1.01f);
-    tbl.addRow(0, 2.222, time_t(1631730832), "Row 02", 2.1f, 2.01f);
-    tbl.addRow(0, 3.333, time_t(1631730833), "Row 03", 3.1f, 3.01f);
-    tbl.addRow(0, 4.444, time_t(1631730834), "Row 04", 4.1f, 4.01f);
-    tbl.addRow(0, 5.555, time_t(1631730835), "Row 05", 5.1f, 5.01f);
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 1.111, time_t(1631730831), "Row 01", 1.1f, 1.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 2.222, time_t(1631730832), "Row 02", 2.1f, 2.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 3.333, time_t(1631730833), "Row 03", 3.1f, 3.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 4.444, time_t(1631730834), "Row 04", 4.1f, 4.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 5.555, time_t(1631730835), "Row 05", 5.1f, 5.01f) );
 
     BOOST_CHECK( tbl.insertRows() );
 
@@ -185,19 +185,19 @@ BOOST_AUTO_TEST_CASE(test_eorm_sqlite_insert_and_select_all_rows)
 
 BOOST_AUTO_TEST_CASE(test_eorm_sqlite_insert_and_select_rows)
 {
-    SqliteDatabase db("my.db");
+    SqliteDatabase db{"my.db"};
 
-    MyTableInfo tbl(db);
+    MyTableInfo tbl{db};
     tbl.dropTable();
 
     BOOST_CHECK( tbl.createTable() );
 
     tbl.clearRows();
-    tbl.addRow(0, 1.111, time_t(1631730831), "Row 01", 1.1f, 1.01f);
-    tbl.addRow(0, 2.222, time_t(1631730832), "Row 02", 2.1f, 2.01f);
-    tbl.addRow(0, 3.333, time_t(1631730833), "Row 03", 3.1f, 3.01f);
-    tbl.addRow(0, 4.444, time_t(1631730834), "Row 04", 4.1f, 4.01f);
-    tbl.addRow(0, 5.555, time_t(1631730835), "Row 05", 5.1f, 5.01f);
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 1.111, time_t(1631730831), "Row 01", 1.1f, 1.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 2.222, time_t(1631730832), "Row 02", 2.1f, 2.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 3.333, time_t(1631730833), "Row 03", 3.1f, 3.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 4.444, time_t(1631730834), "Row 04", 4.1f, 4.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 5.555, time_t(1631730835), "Row 05", 5.1f, 5.01f) );
 
     BOOST_CHECK( tbl.insertRows() );
 
@@ -262,24 +262,24 @@ BOOST_AUTO_TEST_CASE(test_eorm_sqlite_insert_and_select_rows)
 
 BOOST_AUTO_TEST_CASE(test_eorm_sqlite_update_and_select_rows)
 {
-    SqliteDatabase db("my.db");
+    SqliteDatabase db{"my.db"};
 
-    MyTableInfo tbl(db);
+    MyTableInfo tbl{db};
     tbl.dropTable();
 
     BOOST_CHECK( tbl.createTable() );
 
     tbl.clearRows();
-    tbl.addRow(0, 1.111, time_t(1631730831), "Row 01", 1.1f, 1.01f);
-    tbl.addRow(0, 2.222, time_t(1631730832), "Row 02", 2.1f, 2.01f);
-    tbl.addRow(0, 3.333, time_t(1631730833), "Row 03", 3.1f, 3.01f);
-    tbl.addRow(0, 4.444, time_t(1631730834), "Row 04", 4.1f, 4.01f);
-    tbl.addRow(0, 5.555, time_t(1631730835), "Row 05", 5.1f, 5.01f);
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 1.111, time_t(1631730831), "Row 01", 1.1f, 1.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 2.222, time_t(1631730832), "Row 02", 2.1f, 2.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 3.333, time_t(1631730833), "Row 03", 3.1f, 3.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 4.444, time_t(1631730834), "Row 04", 4.1f, 4.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 5.555, time_t(1631730835), "Row 05", 5.1f, 5.01f) );
 
     BOOST_CHECK( tbl.insertRows() );
 
     tbl.clearRows();
-    tbl.addRow(0, 888.888, time_t(0), "UPDATED ROW", 8.88f, 88.008f);
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 888.888, time_t(0), "UPDATED ROW", 8.88f, 88.008f) );
 
     BOOST_CHECK( tbl.updateRows({ tbl.ID > 1 && tbl.ID < 5 }) );
 
@@ -342,19 +342,19 @@ BOOST_AUTO_TEST_CASE(test_eorm_sqlite_update_and_select_rows)
 
 BOOST_AUTO_TEST_CASE(test_eorm_sqlite_delete_and_select_rows)
 {
-    SqliteDatabase db("my.db");
+    SqliteDatabase db{"my.db"};
 
-    MyTableInfo tbl(db);
+    MyTableInfo tbl{db};
     tbl.dropTable();
 
     BOOST_CHECK( tbl.createTable() );
 
     tbl.clearRows();
-    tbl.addRow(0, 1.111, time_t(1631730831), "Row 01", 1.1f, 1.01f);
-    tbl.addRow(0, 2.222, time_t(1631730832), "Row 02", 2.1f, 2.01f);
-    tbl.addRow(0, 3.333, time_t(1631730833), "Row 03", 3.1f, 3.01f);
-    tbl.addRow(0, 4.444, time_t(1631730834), "Row 04", 4.1f, 4.01f);
-    tbl.addRow(0, 5.555, time_t(1631730835), "Row 05", 5.1f, 5.01f);
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 1.111, time_t(1631730831), "Row 01", 1.1f, 1.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 2.222, time_t(1631730832), "Row 02", 2.1f, 2.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 3.333, time_t(1631730833), "Row 03", 3.1f, 3.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 4.444, time_t(1631730834), "Row 04", 4.1f, 4.01f) );
+    BOOST_REQUIRE_NO_THROW( tbl.addRow(0, 5.555, time_t(1631730835), "Row 05", 5.1f, 5.01f) );
 
     BOOST_CHECK( tbl.insertRows() );
 
