@@ -100,7 +100,7 @@ class Table
 {
 protected:
 
-    SqlName tableName;
+    const SqlName tableName;
     std::vector<std::reference_wrapper<TableColumnBase>> tableColumns;
 
 public:
@@ -112,24 +112,28 @@ public:
 
     Table(const SqlName& name) : tableName(name) { }
 
-    virtual void registerColumns(const decltype(tableColumns)&& tcs)
+    template <typename... T>
+    void registerColumns(T&&... columns)
     {
-        tableColumns = std::move(tcs);
-
         auto this_sp = std::shared_ptr<Table>(this,[](Table*){});
         size_t col_index{0};
 
-        std::for_each(
-            tableColumns.begin(),
-            tableColumns.end(),
-            [&col_index,&this_sp](auto& tc)
-            {
-                tc.get().table = this_sp;
-                if (trim(tc.get().columnName.value) == "")
-                    tc.get().columnName.value = "COLUMN_" + std::to_string(col_index);
-                ++col_index;
-            }
-        );
+        tableColumns =
+        {
+            (
+                (
+                    [&this_sp,&col_index](T& tc) -> T&
+                    {
+                        tc.table = this_sp;
+                        if (trim(tc.columnName.value) == "")
+                            tc.columnName.value = "COLUMN_" + std::to_string(col_index);
+                        ++col_index;
+                        return tc;
+                    }
+                )
+                (columns)
+            )...
+        };
     }
 
     const SqlName& getTableName() const;

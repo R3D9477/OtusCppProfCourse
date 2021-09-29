@@ -18,7 +18,7 @@ struct Table1Info: Table
     TableColumn<float>        C4 { 5.65f };
     TableColumn<float>        C5;
 
-    Table1Info(): Table({"Table1"}) { registerColumns({ID, C1, C2, C3, C4, C5}); }
+    Table1Info(): Table({"Table1"}) { registerColumns(ID, C1, C2, C3, C4, C5); }
 };
 
 struct Table2Info: Table
@@ -30,7 +30,7 @@ struct Table2Info: Table
     TableColumn<float>        C4 { 5.65f };
     TableColumn<float>        C5;
 
-    Table2Info(): Table({"Table2"}) { registerColumns({ID, C1, C2, C3, C4, C5}); }
+    Table2Info(): Table({"Table2"}) { registerColumns(ID, C1, C2, C3, C4, C5); }
 };
 
 struct Table3Info: Table
@@ -42,7 +42,7 @@ struct Table3Info: Table
     TableColumn<float>        C4 { 5.65f };
     TableColumn<float>        C5;
 
-    Table3Info(): Table({"Table3"}) { registerColumns({ID, C1, C2, C3, C4, C5}); }
+    Table3Info(): Table({"Table3"}) { registerColumns(ID, C1, C2, C3, C4, C5); }
 };
 
 struct Table4Info: Table
@@ -54,7 +54,7 @@ struct Table4Info: Table
     TableColumn<float>        C4 { 5.65f };
     TableColumn<float>        C5;
 
-    Table4Info(): Table({"Table4"}) { registerColumns({ID, C1, C2, C3, C4, C5}); }
+    Table4Info(): Table({"Table4"}) { registerColumns(ID, C1, C2, C3, C4, C5); }
 };
 
 struct Table5Info: Table
@@ -66,7 +66,7 @@ struct Table5Info: Table
     TableColumn<float>        C4 { 5.65f };
     TableColumn<float>        C5;
 
-    Table5Info(): Table({"Table5"}) { registerColumns({ID, C1, C2, C3, C4, C5}); }
+    Table5Info(): Table({"Table5"}) { registerColumns(ID, C1, C2, C3, C4, C5); }
 };
 
 struct Table6Info: Table
@@ -78,7 +78,7 @@ struct Table6Info: Table
     TableColumn<float>        C4 { 5.65f };
     TableColumn<float>        C5;
 
-    Table6Info(): Table({"Table6"}) { registerColumns({ID, C1, C2, C3, C4, C5}); }
+    Table6Info(): Table({"Table6"}) { registerColumns(ID, C1, C2, C3, C4, C5); }
 };
 
 BOOST_AUTO_TEST_SUITE(test_eorm_core)

@@ -17,7 +17,7 @@ struct MyTableInfo: SqliteTable
 
     MyTableInfo(const SqliteDatabase& db): SqliteTable({"MyTable"}, db)
     {
-        registerColumns({ID, C1, C2, C3, C4, C5});
+        registerColumns(ID, C1, C2, C3, C4, C5);
     }
 };
 

@@ -18,7 +18,7 @@ enum TableColumnType
 };
 
 template <typename T>
-static TableColumnType getTableColumnType()
+constexpr TableColumnType getTableColumnType()
 {
          if (std::is_same<T, std::time_t>::value)   return TableColumnType::DATETIME;
     else if (std::is_same<T, float>::value)         return TableColumnType::REAL;
