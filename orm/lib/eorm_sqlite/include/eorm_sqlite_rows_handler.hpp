@@ -45,8 +45,8 @@ public:
             std::string cname;
             char snamed = '\0';
 
-            auto comparator = [&cname,snamed](std::shared_ptr<TableColumnBase> tbl) {
-                return tbl->getSqlName(snamed) == cname;
+            auto comparator = [&cname,snamed](TableColumnBase& tbl) {
+                return tbl.getSqlName(snamed) == cname;
             };
 
             for (int i = 0; i < columns; ++i)
@@ -59,8 +59,7 @@ public:
                     auto a = std::find_if(t.begin(), t.end(), comparator);
 
                     if (a != t.end())
-                        if (auto colptr = (*a))
-                            colptr->addRowStr(data[i]);
+                        (*a).get().addRowStr(data[i]);
                 }
             }
 

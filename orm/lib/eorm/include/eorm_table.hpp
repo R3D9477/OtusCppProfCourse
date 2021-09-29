@@ -101,7 +101,7 @@ class Table
 protected:
 
     SqlName tableName;
-    std::vector<std::shared_ptr<TableColumnBase>> tableColumns;
+    std::vector<std::reference_wrapper<TableColumnBase>> tableColumns;
 
 public:
 
@@ -112,19 +112,24 @@ public:
 
     Table(const SqlName& name) : tableName(name) { }
 
-    template <typename... T>
-    void registerColumns(T&&... columns)
+    virtual void registerColumns(const decltype(tableColumns)&& tcs)
     {
-        (void)std::initializer_list<int>{ (registerColumn((std::forward<T>(columns))), void(), 0)... };
-    }
+        tableColumns = std::move(tcs);
 
-    template <typename T>
-    void registerColumn(T& tc)
-    {
-        if (tc.columnName == "")
-            tc.columnName = "COLUMN_" + std::to_string(tableColumns.size());
-        tc.table = std::shared_ptr<Table>(this,[](Table*){});
-        tableColumns.push_back(std::shared_ptr<T>(&tc,[](T*){}));
+        auto this_sp = std::shared_ptr<Table>(this,[](Table*){});
+        size_t col_index{0};
+
+        std::for_each(
+            tableColumns.begin(),
+            tableColumns.end(),
+            [&col_index,&this_sp](auto& tc)
+            {
+                tc.get().table = this_sp;
+                if (trim(tc.get().columnName.value) == "")
+                    tc.get().columnName.value = "COLUMN_" + std::to_string(col_index);
+                ++col_index;
+            }
+        );
     }
 
     const SqlName& getTableName() const;
@@ -177,13 +182,13 @@ public:
 
         auto buf = stdstr_or_type(val);
 
-        if (getTableColumnType<typeof(buf)>() != this->tableColumns[colIndex]->columnType)
+        if (getTableColumnType<typeof(buf)>() != this->tableColumns[colIndex].get().columnType)
         {
-            std::for_each_n(this->tableColumns.begin(), colIndex, [](auto& column){ if (column) column->removeLastValue(); });
+            std::for_each_n(this->tableColumns.begin(), colIndex, [](auto& column){ column.get().removeLastValue(); });
             throw ValueTypeException{colIndex};
         }
 
-        this->tableColumns[colIndex]->addRowPtr(std::make_shared<typeof(buf)>(buf));
+        this->tableColumns[colIndex].get().addRowPtr(std::make_shared<typeof(buf)>(buf));
     }
 };
 

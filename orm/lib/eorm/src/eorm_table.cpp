@@ -24,8 +24,8 @@ size_t Table::getMaxRowsCount() const
 {
     size_t rows = 0;
     for (auto& cl: this->tableColumns)
-        if (rows < cl->getRowsCount())
-            rows = cl->getRowsCount();
+        if (rows < cl.get().getRowsCount())
+            rows = cl.get().getRowsCount();
     return rows;
 }
 
@@ -36,7 +36,7 @@ SqlExpr Table::getSqlTableCreate() const
     sqlBuf << "CREATE TABLE " << this->tableName << " (";
 
     for (auto& c: tableColumns)
-        sqlBuf << std::endl << c->getSqlCreateTable() << ',';
+        sqlBuf << std::endl << c.get().getSqlCreateTable() << ',';
 
     sqlBuf.seekp(-1, sqlBuf.cur);
     sqlBuf << std::endl << ");";
@@ -61,12 +61,12 @@ SqlExpr Table::getSqlRowsInsert(const bool insertValues) const
         sqlBufValues << "VALUES (";
 
         for (auto& c: tableColumns)
-            if (!c->is_AUTOINCREMENT())
+            if (!c.get().is_AUTOINCREMENT())
             {
-                sqlBuf << std::endl << c->getSqlName('\0') << ',';
+                sqlBuf << std::endl << c.get().getSqlName('\0') << ',';
                 sqlBufValues << std::endl;
-                if (insertValues) sqlBufValues << c->getSqlRowValue(rowIndex);
-                else sqlBufValues << ":" << c->getSqlName('_') << '_' << rowIndex;
+                if (insertValues) sqlBufValues << c.get().getSqlRowValue(rowIndex);
+                else sqlBufValues << ":" << c.get().getSqlName('_') << '_' << rowIndex;
                 sqlBufValues << ',';
             }
 
@@ -99,8 +99,8 @@ SqlExpr Table::getSqlRowsUpdate(
         sqlBuf << "UPDATE " << this->tableName << " SET";
 
         for (auto& c: tableColumns)
-            if (!c->is_AUTOINCREMENT())
-                sqlBuf << std::endl << c->getSqlName('\0') << '=' << c->getSqlRowValue(rowIndex) << ',';
+            if (!c.get().is_AUTOINCREMENT())
+                sqlBuf << std::endl << c.get().getSqlName('\0') << '=' << c.get().getSqlRowValue(rowIndex) << ',';
 
         sqlBuf.seekp(-1, sqlBuf.cur);
 
@@ -219,7 +219,7 @@ SqlExpr Table::getSqlRowsCount(const SqlExpr& sqlEpr) const
 void Table::clearRows()
 {
     for (auto& cl: this->tableColumns)
-        cl->clearRows();
+        cl.get().clearRows();
 }
 
 }
