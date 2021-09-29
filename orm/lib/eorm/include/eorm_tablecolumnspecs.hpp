@@ -14,10 +14,10 @@ enum TableColumnSpecs
 
 typedef TableColumnSpecs TCS;
 
-static bool is_PRIMARY_KEY     (TableColumnSpecs specs) { return ( specs & PRIMARY_KEY   ); }
-static bool is_AUTOINCREMENT   (TableColumnSpecs specs) { return ( specs & AUTOINCREMENT ); }
-static bool is_NOT_NULL        (TableColumnSpecs specs) { return ( specs & NOT_NULL      ); }
-static bool is_DEFAULT         (TableColumnSpecs specs) { return ( specs & DEFAULT       ); }
+constexpr bool is_PRIMARY_KEY     (const TableColumnSpecs specs) { return ( specs & PRIMARY_KEY   ); }
+constexpr bool is_AUTOINCREMENT   (const TableColumnSpecs specs) { return ( specs & AUTOINCREMENT ); }
+constexpr bool is_NOT_NULL        (const TableColumnSpecs specs) { return ( specs & NOT_NULL      ); }
+constexpr bool is_DEFAULT         (const TableColumnSpecs specs) { return ( specs & DEFAULT       ); }
 
 }
 }

@@ -10,7 +10,7 @@ namespace core {
 
 struct ValuesCountException : public std::exception
 {
-    const char * what () const throw ()
+    const char* what () const throw ()
     {
         return "Count of values is not equal to count of table columns.";
     }

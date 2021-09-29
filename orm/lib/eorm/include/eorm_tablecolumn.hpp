@@ -22,24 +22,45 @@ class TableColumn: public TableColumnBase
         "unknown data type"
     );
 
-    std::vector<T> data;
+    T columnDefValue{getDefaultValue<T>()};
+
+    std::vector<T> columnData;
 
 public:
 
-    TableColumn (const SqlName& name = {}, TCS specs = TCS::EMPTY)
-    {
-        this->columnType  = getTableColumnType<T>();
-        this->columnName  = name;
-        this->columnSpecs = specs;
-    }
-    TableColumn (TCS specs): TableColumn({}, specs) {}
-    TableColumn (const SqlName& name, const TCS specs, const T defValue): TableColumn(name, specs)  { this->data.push_back(defValue); }
-    TableColumn (const SqlName& name, const T defValue): TableColumn(name)                          { this->data.push_back(defValue); }
-    TableColumn (const TCS specs, const T defValue): TableColumn({}, specs)                         { this->data.push_back(defValue); }
-    TableColumn (const T defValue): TableColumn()                                                   { this->data.push_back(defValue); }
+    TableColumn (const SqlName& name = {}, const TCS specs = TCS::EMPTY):
+        TableColumnBase{getTableColumnType<T>(), specs, name}
+    { }
 
-    size_t getRowsCount() const override { return this->data.size(); }
-    void clearRows() override { this->data.clear(); }
+    TableColumn (const TCS specs): TableColumn({}, specs)
+    { }
+
+    TableColumn (const SqlName& name, const TCS specs, const T& defValue): TableColumn(name, specs)
+    {
+        columnDefValue = defValue;
+        columnSpecs = TCS(columnSpecs|TCS::DEFAULT);
+    }
+
+    TableColumn (const SqlName& name, const T& defValue): TableColumn{name}
+    {
+        columnDefValue = defValue;
+        columnSpecs = TCS(columnSpecs|TCS::DEFAULT);
+    }
+
+    TableColumn (const TCS specs, const T& defValue): TableColumn({}, specs)
+    {
+        columnDefValue = defValue;
+        columnSpecs = TCS(columnSpecs|TCS::DEFAULT);
+    }
+
+    TableColumn (const T& defValue): TableColumn{}
+    {
+        columnDefValue = defValue;
+        columnSpecs = TCS(columnSpecs|TCS::DEFAULT);
+    }
+
+    size_t getRowsCount() const override { return this->columnData.size(); }
+    void clearRows() override { this->columnData.clear(); }
 
     void addRowStr(const char* rowStr) override
     {
@@ -58,11 +79,11 @@ public:
     void addRowPtr(const std::shared_ptr<void> rowPtr) override
     {
         if (rowPtr)
-            this->data.push_back(*(std::static_pointer_cast<T>(rowPtr)));
+            this->columnData.push_back(*(std::static_pointer_cast<T>(rowPtr)));
     }
-    void removeLastValue() override { data.pop_back(); }
+    void removeLastValue() override { columnData.pop_back(); }
 
-    T getRowValue(const size_t rowIndex = 0) const { return (rowIndex < data.size()) ? data[rowIndex] : T(); }
+    T getRowValue(const size_t rowIndex = 0) const { return (rowIndex < columnData.size()) ? columnData[rowIndex] : T(); }
 
     SqlExpr getSqlRowValue(size_t rowIndex = 0) const override
     {
@@ -73,7 +94,7 @@ public:
         if ((valueExists = rowIndex < getRowsCount()))
         {
             if (this->columnType == TCT::TEXT) sqlBuf << "'";
-            sqlBuf << stringify(this->data[rowIndex]);
+            sqlBuf << stringify(this->columnData[rowIndex]);
             if (this->columnType == TCT::TEXT) sqlBuf << "'";
         }
 

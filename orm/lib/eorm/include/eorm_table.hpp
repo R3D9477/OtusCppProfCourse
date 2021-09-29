@@ -24,15 +24,21 @@ class TableColumnBase
 {
 protected:
 
-    std::shared_ptr<Table>   table;
+    TCT     columnType;
+    TCS     columnSpecs;
+    SqlName columnName;
 
-    SqlName             columnName;
-    TableColumnType     columnType;
-    TableColumnSpecs    columnSpecs;
+    std::shared_ptr<Table> table;
 
 public:
 
     friend class Table;
+
+    TableColumnBase (const TCT type, const TCS specs = TCS::EMPTY, const SqlName& name = {}):
+        columnType{type},
+        columnSpecs{specs},
+        columnName{name}
+    { }
 
     virtual TableColumnType getType() const { return columnType; }
 
@@ -110,7 +116,7 @@ public:
     decltype(tableColumns)::const_iterator begin() const { return tableColumns.cbegin(); }
     decltype(tableColumns)::const_iterator end()   const { return tableColumns.cend();   }
 
-    Table(const SqlName& name) : tableName(name) { }
+    Table(const SqlName& name) : tableName{name} { }
 
     template <typename... T>
     void registerColumns(T&&... columns)

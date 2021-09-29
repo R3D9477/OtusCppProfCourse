@@ -9,7 +9,7 @@ namespace core {
 
 struct SqlExpr: SqlStrData
 {
-    SqlExpr(const std::string& value_ = ""): SqlStrData(value_) { trim(value); }
+    SqlExpr(const std::string& value_ = ""): SqlStrData{value_} { trim(value); }
 };
 
 }
