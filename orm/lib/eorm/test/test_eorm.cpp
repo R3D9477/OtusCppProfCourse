@@ -335,7 +335,8 @@ ORDER BY Table1.C1, Table1.C2 ASC, Table1.COLUMN_3 DESC
 LIMIT 300
 OFFSET 25;)"};
 
-    auto ResultSql = Table1.getSqlRowsSelect(
+    auto ResultSql = Table1.getSqlRowsSelect
+    (
         {
             Table1.ID,
             Table1.C1,
@@ -347,10 +348,12 @@ OFFSET 25;)"};
             { TJT::LEFT,  Table4 },
             { TJT::RIGHT, Table5 },
         },
+        {
                Table1.C1 ==  3.14
             && Table1.C2 >   Table1.C3
             && Table1.C3 ==  SqlName{"MyCustomColumn"}
             && Table1.C4.IN( Table6.getSqlRowsSelect() )
+        }
         ,
         {
             { Table1.C1, TRST::DEFAULT },
