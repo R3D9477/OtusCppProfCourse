@@ -16,16 +16,31 @@ struct TableColumnComparsionExpr
     std::string expr;
 
     TableColumnComparsionExpr (const std::string& expr_ = ""):
-        expr(expr_ == "" ? "" : '(' + removeSqlDelimiter(expr_) + ')')
+        expr{expr_ == "" ? "" : '(' + removeSqlDelimiter(expr_) + ')'}
     { }
 
     TableColumnComparsionExpr (const SqlName& sqlName_):
-        expr(sqlName_.value)
+        expr{sqlName_.value}
     { }
 
     TableColumnComparsionExpr (const SqlExpr& nestedExpr_):
-        TableColumnComparsionExpr(nestedExpr_.value)
+        TableColumnComparsionExpr{nestedExpr_.value}
     { }
+
+    TableColumnComparsionExpr operator>  (const TableColumnComparsionExpr& second) const { return __getExpr(second, ">");   }
+    TableColumnComparsionExpr operator<  (const TableColumnComparsionExpr& second) const { return __getExpr(second, "<");   }
+    TableColumnComparsionExpr operator== (const TableColumnComparsionExpr& second) const { return __getExpr(second, "=");   }
+    TableColumnComparsionExpr operator!= (const TableColumnComparsionExpr& second) const { return __getExpr(second, "<>");  }
+    TableColumnComparsionExpr operator&& (const TableColumnComparsionExpr& second) const { return __getExpr(second, "AND"); }
+    TableColumnComparsionExpr operator!  () const { return __getExpr("NOT"); }
+
+    TableColumnComparsionExpr IN (const TableColumnComparsionExpr& second) const { return __getExpr(second, "IN");  }
+
+    bool isEmpty() const { return expr.empty(); }
+
+    friend std::ostream& operator<< (std::ostream& os, const TableColumnComparsionExpr& expr)   { os << expr.expr; return os; }
+
+private:
 
     TableColumnComparsionExpr __getExpr(const std::string& op) const
     {
@@ -45,19 +60,6 @@ struct TableColumnComparsionExpr
     {
         return __getExpr(TableColumnComparsionExpr(second), op);
     }
-
-    inline TableColumnComparsionExpr operator>  (const TableColumnComparsionExpr& second) const { return __getExpr(second, ">");   }
-    inline TableColumnComparsionExpr operator<  (const TableColumnComparsionExpr& second) const { return __getExpr(second, "<");   }
-    inline TableColumnComparsionExpr operator== (const TableColumnComparsionExpr& second) const { return __getExpr(second, "=");   }
-    inline TableColumnComparsionExpr operator!= (const TableColumnComparsionExpr& second) const { return __getExpr(second, "<>");  }
-    inline TableColumnComparsionExpr operator&& (const TableColumnComparsionExpr& second) const { return __getExpr(second, "AND"); }
-    inline TableColumnComparsionExpr operator!  () const { return __getExpr("NOT"); }
-
-    inline TableColumnComparsionExpr IN (const TableColumnComparsionExpr& second) const { return __getExpr(second, "IN");  }
-
-    inline bool isEmpty() const { return expr.empty(); }
-
-    friend std::ostream& operator<< (std::ostream& os, const TableColumnComparsionExpr& expr)   { os << expr.expr; return os; }
 };
 
 typedef TableColumnComparsionExpr TCCE;

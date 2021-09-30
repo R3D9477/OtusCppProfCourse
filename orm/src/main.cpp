@@ -8,11 +8,11 @@ using namespace eorm::sqlite;
 
 struct MyTableInfo: SqliteTable
 {
-    TableColumn<int>          ID = { {"ID"}, TCS(TCS::PRIMARY_KEY|TCS::AUTOINCREMENT) };
-    TableColumn<double>       C1 = { {"C1"}, TCS::DEFAULT, 3.14 };
-    TableColumn<std::time_t>  C2 = { {"C2"}, TCS(TCS::DEFAULT|TCS::NOT_NULL) };
-    TableColumn<std::string>  C3 = { TCS::DEFAULT };
-    TableColumn<float>        C4 = { 5.65f };
+    TableColumn<int>          ID;
+    TableColumn<double>       C1;
+    TableColumn<std::time_t>  C2;
+    TableColumn<std::string>  C3;
+    TableColumn<float>        C4;
     TableColumn<float>        C5;
 
     MyTableInfo(const SqliteDatabase& db): SqliteTable({"MyTable"}, db)

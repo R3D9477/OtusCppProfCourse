@@ -32,14 +32,5 @@ constexpr TableColumnType getTableColumnType()
     else return TableColumnType::TEXT;
 }
 
-template <typename T>
-constexpr T getDefaultValue()
-{
-    if constexpr (std::is_same<T, const char *>::value || std::is_same<T, std::string>::value)
-        return "";
-    else
-        return T{0};
-}
-
 }
 }

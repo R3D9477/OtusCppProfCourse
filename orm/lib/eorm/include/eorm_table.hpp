@@ -43,59 +43,61 @@ public:
     virtual TableColumnType getType() const { return columnType; }
 
     virtual SqlExpr getSqlName (const char delimiter = '.') const;
-    virtual SqlExpr getSqlRowValue (size_t rowIndex = 0) const { std::ignore = rowIndex; return {}; }
+    virtual SqlExpr getSqlDefaultValue () const { return {}; }
+    virtual SqlExpr getSqlRowValue (size_t rowIndex) const { std::ignore = rowIndex; return {}; }
     virtual SqlExpr getSqlCreateTable () const { return {}; }
 
     virtual size_t getRowsCount () const { return 0; }
     virtual void clearRows () {}
     virtual void addRowStr (const char* rowStr) { std::ignore = rowStr; }
     virtual void addRowPtr (const std::shared_ptr<void> rowPtr) { std::ignore = rowPtr; }
-    virtual void removeLastValue() {}
+    virtual void removeLastValue () {}
 
     virtual bool is_PRIMARY_KEY     () const { return eorm::core::is_PRIMARY_KEY(this->columnSpecs);   }
     virtual bool is_AUTOINCREMENT   () const { return eorm::core::is_AUTOINCREMENT(this->columnSpecs); }
     virtual bool is_NOT_NULL        () const { return eorm::core::is_NOT_NULL(this->columnSpecs);      }
     virtual bool is_DEFAULT         () const { return eorm::core::is_DEFAULT(this->columnSpecs);       }
+    virtual bool is_VALUE_REQUIRED  () const { return is_NOT_NULL()||is_DEFAULT(); }
 
     operator TableColumnComparsionExpr() const
     {
         return
             this->columnName.value == ""
-            ? TableColumnComparsionExpr(this->getSqlRowValue())
+            ? TableColumnComparsionExpr(this->getSqlDefaultValue())
             : TableColumnComparsionExpr(this->getSqlName());
     }
 
-    inline TableColumnComparsionExpr operator> (const SqlName& second) const
+    TableColumnComparsionExpr operator> (const SqlName& second) const
     { return static_cast<TableColumnComparsionExpr>(*this) > TableColumnComparsionExpr(second);   }
 
-    inline TableColumnComparsionExpr operator< (const SqlName& second) const
+    TableColumnComparsionExpr operator< (const SqlName& second) const
     { return static_cast<TableColumnComparsionExpr>(*this) < TableColumnComparsionExpr(second);   }
 
-    inline TableColumnComparsionExpr operator== (const SqlName& second) const
+    TableColumnComparsionExpr operator== (const SqlName& second) const
     { return static_cast<TableColumnComparsionExpr>(*this) == TableColumnComparsionExpr(second);  }
 
-    inline TableColumnComparsionExpr operator!= (const SqlName& second) const
+    TableColumnComparsionExpr operator!= (const SqlName& second) const
     { return static_cast<TableColumnComparsionExpr>(*this) != TableColumnComparsionExpr(second);  }
 
-    inline TableColumnComparsionExpr IN (const SqlName& second) const
+    TableColumnComparsionExpr IN (const SqlName& second) const
     { return static_cast<TableColumnComparsionExpr>(*this).IN(TableColumnComparsionExpr(second)); }
 
-    inline TableColumnComparsionExpr operator> (const TableColumnBase& second) const
+    TableColumnComparsionExpr operator> (const TableColumnBase& second) const
     { return static_cast<TableColumnComparsionExpr>(*this) > static_cast<TableColumnComparsionExpr>(second);   }
 
-    inline TableColumnComparsionExpr operator< (const TableColumnBase& second) const
+    TableColumnComparsionExpr operator< (const TableColumnBase& second) const
     { return static_cast<TableColumnComparsionExpr>(*this) < static_cast<TableColumnComparsionExpr>(second);   }
 
-    inline TableColumnComparsionExpr operator== (const TableColumnBase& second) const
+    TableColumnComparsionExpr operator== (const TableColumnBase& second) const
     { return static_cast<TableColumnComparsionExpr>(*this) == static_cast<TableColumnComparsionExpr>(second);  }
 
-    inline TableColumnComparsionExpr operator!= (const TableColumnBase& second) const
+    TableColumnComparsionExpr operator!= (const TableColumnBase& second) const
     { return static_cast<TableColumnComparsionExpr>(*this) != static_cast<TableColumnComparsionExpr>(second);  }
 
-    inline TableColumnComparsionExpr IN (const TableColumnBase& second) const
+    TableColumnComparsionExpr IN (const TableColumnBase& second) const
     { return static_cast<TableColumnComparsionExpr>(*this).IN(static_cast<TableColumnComparsionExpr>(second)); }
 
-    inline TableColumnComparsionExpr IN (const TableColumnComparsionExpr& second) const
+    TableColumnComparsionExpr IN (const TableColumnComparsionExpr& second) const
     { return static_cast<TableColumnComparsionExpr>(*this).IN(second); }
 };
 

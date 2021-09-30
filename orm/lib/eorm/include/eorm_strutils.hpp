@@ -3,6 +3,7 @@
 #pragma once
 
 #include <string>
+#include <iomanip>
 #include <sstream>
 #include <algorithm>
 
@@ -21,6 +22,20 @@ typename std::enable_if<!std::is_fundamental<T>::value,
     std::string>::type stringify(const T& t)
 {
     return std::string(t);
+}
+
+template<typename T>
+typename std::enable_if<std::is_same<T, std::string>::value,
+    std::string>::type quoted_stringify(const T& t)
+{
+    return "'" + stringify(t) + "'";
+}
+
+template<typename T>
+typename std::enable_if<!std::is_same<T, std::string>::value,
+    std::string>::type quoted_stringify(const T& t)
+{
+    return stringify(t);
 }
 
 template<typename T>
@@ -45,13 +60,15 @@ typename std::enable_if<!std::is_same<T, const char*>::value,
 
 [[maybe_unused]] static std::stringstream& pop_back(std::stringstream& stream)
 {
-    stream.str(stream.str().erase(long(stream.tellp())-1));
+    if (stream.tellp()>0)
+        stream.str(stream.str().erase(long(stream.tellp())-1));
     return stream;
 }
 
 [[maybe_unused]] static std::ostringstream& pop_back(std::ostringstream& stream)
 {
-    stream.str(stream.str().erase(long(stream.tellp())-1));
+    if (stream.tellp()>0)
+        stream.str(stream.str().erase(long(stream.tellp())-1));
     return stream;
 }
 

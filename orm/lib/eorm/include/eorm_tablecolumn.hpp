@@ -5,6 +5,7 @@
 #include <cstdlib>
 
 #include "eorm_table.hpp"
+#include "eorm_defvalue.hpp"
 
 namespace eorm {
 namespace core {
@@ -22,7 +23,7 @@ class TableColumn: public TableColumnBase
         "unknown data type"
     );
 
-    T columnDefValue{getDefaultValue<T>()};
+    const DefaultValue<T> columnDefValue{is_VALUE_REQUIRED()};
 
     std::vector<T> columnData;
 
@@ -32,32 +33,29 @@ public:
         TableColumnBase{getTableColumnType<T>(), specs, name}
     { }
 
-    TableColumn (const TCS specs): TableColumn({}, specs)
+    TableColumn (const TCS specs):
+        TableColumnBase{getTableColumnType<T>(), specs}
     { }
 
-    TableColumn (const SqlName& name, const TCS specs, const T& defValue): TableColumn(name, specs)
-    {
-        columnDefValue = defValue;
-        columnSpecs = TCS(columnSpecs|TCS::DEFAULT);
-    }
+    TableColumn (const SqlName& name, const TCS specs, const T& defValue):
+        TableColumnBase{getTableColumnType<T>(), TCS(specs|TCS::DEFAULT), name},
+        columnDefValue{defValue}
+    { }
 
-    TableColumn (const SqlName& name, const T& defValue): TableColumn{name}
-    {
-        columnDefValue = defValue;
-        columnSpecs = TCS(columnSpecs|TCS::DEFAULT);
-    }
+    TableColumn (const SqlName& name, const T& defValue):
+        TableColumnBase{getTableColumnType<T>(), TCS::DEFAULT, name},
+        columnDefValue{defValue}
+    { }
 
-    TableColumn (const TCS specs, const T& defValue): TableColumn({}, specs)
-    {
-        columnDefValue = defValue;
-        columnSpecs = TCS(columnSpecs|TCS::DEFAULT);
-    }
+    TableColumn (const TCS specs, const T& defValue):
+        TableColumnBase{getTableColumnType<T>(), TCS(specs|TCS::DEFAULT), {}},
+        columnDefValue{defValue}
+    { }
 
-    TableColumn (const T& defValue): TableColumn{}
-    {
-        columnDefValue = defValue;
-        columnSpecs = TCS(columnSpecs|TCS::DEFAULT);
-    }
+    TableColumn (const T& defValue):
+        TableColumnBase{getTableColumnType<T>(), TCS::DEFAULT, {}},
+        columnDefValue{defValue}
+    { }
 
     size_t getRowsCount() const override { return this->columnData.size(); }
     void clearRows() override { this->columnData.clear(); }
@@ -83,35 +81,35 @@ public:
     }
     void removeLastValue() override { columnData.pop_back(); }
 
-    T getRowValue(const size_t rowIndex = 0) const { return (rowIndex < columnData.size()) ? columnData[rowIndex] : T(); }
+    T getRowValue(const size_t rowIndex) const
+    {
+        return (rowIndex < columnData.size()) ? columnData[rowIndex] : T();
+    }
 
-    SqlExpr getSqlRowValue(size_t rowIndex = 0) const override
+    SqlExpr getSqlDefaultValue () const override
+    {
+        std::ostringstream sqlBuf;
+
+        sqlBuf << columnDefValue.getSqlValue();
+
+        return { sqlBuf.str() };
+    }
+
+    SqlExpr getSqlRowValue(size_t rowIndex) const override
     {
         std::ostringstream sqlBuf;
 
         bool valueExists = false;
 
         if ((valueExists = rowIndex < getRowsCount()))
-        {
-            if (this->columnType == TCT::TEXT) sqlBuf << "'";
-            sqlBuf << stringify(this->columnData[rowIndex]);
-            if (this->columnType == TCT::TEXT) sqlBuf << "'";
-        }
+            sqlBuf << quoted_stringify(this->columnData[rowIndex]);
 
         if (!valueExists)
             if ((valueExists = this->is_NOT_NULL()))
-            {
-                switch (this->columnType)
-                {
-                    case TCT::INTEGER:  sqlBuf << "0";                  break;
-                    case TCT::REAL:     sqlBuf << "0";                  break;
-                    case TCT::DATETIME: sqlBuf << "CURRENT_TIMESTAMP";  break;
-                    case TCT::TEXT:     sqlBuf << "''";                 break;
-                    default: throw "UNKNOWN DATA TYPE";
-                }
-            }
+                sqlBuf << columnDefValue.getSqlValue();
 
-        if (!valueExists) sqlBuf << "NULL";
+        if (!valueExists)
+            sqlBuf << "NULL";
 
         return { sqlBuf.str() };
     }
@@ -132,13 +130,13 @@ public:
             default: throw "UNKNOWN DATA TYPE";
         }
 
-        if (this->is_PRIMARY_KEY())      sqlBuf << " " << "PRIMARY KEY";
-        if (this->is_AUTOINCREMENT())    sqlBuf << " " << "AUTOINCREMENT";
-        if (this->is_NOT_NULL())         sqlBuf << " " << "NOT NULL";
-        if (this->is_DEFAULT())          sqlBuf << " " << "DEFAULT";
+        if (this->is_PRIMARY_KEY())     sqlBuf << " " << "PRIMARY KEY";
+        if (this->is_AUTOINCREMENT())   sqlBuf << " " << "AUTOINCREMENT";
+        if (this->is_NOT_NULL())        sqlBuf << " " << "NOT NULL";
+        if (this->is_DEFAULT())         sqlBuf << " " << "DEFAULT";
 
-        if (this->is_NOT_NULL() || this->is_DEFAULT())
-            sqlBuf << " " << this->getSqlRowValue();
+        if (is_VALUE_REQUIRED())
+            sqlBuf << " " << columnDefValue.getSqlValue();
 
         return { sqlBuf.str() };
     }
@@ -158,16 +156,16 @@ public:
     inline TableColumnComparsionExpr IN (const TableColumnComparsionExpr& second) const { return TableColumnBase::IN(second); }
 
     TableColumnComparsionExpr operator> (const T& second) const
-    { return static_cast<TableColumnComparsionExpr>(*this) > static_cast<TableColumnComparsionExpr>(TableColumn<T>(second));  }
+    { return static_cast<TableColumnComparsionExpr>(*this) > static_cast<TableColumnComparsionExpr>(TableColumn{second});  }
 
     inline TableColumnComparsionExpr operator< (const T& second) const
-    { return static_cast<TableColumnComparsionExpr>(*this) < static_cast<TableColumnComparsionExpr>(TableColumn<T>(second));  }
+    { return static_cast<TableColumnComparsionExpr>(*this) < static_cast<TableColumnComparsionExpr>(TableColumn{second});  }
 
     inline TableColumnComparsionExpr operator== (const T& second) const
-    { return static_cast<TableColumnComparsionExpr>(*this) == static_cast<TableColumnComparsionExpr>(TableColumn<T>(second)); }
+    { return static_cast<TableColumnComparsionExpr>(*this) == static_cast<TableColumnComparsionExpr>(TableColumn{second}); }
 
     inline TableColumnComparsionExpr operator!= (const T& second) const
-    { return static_cast<TableColumnComparsionExpr>(*this) != static_cast<TableColumnComparsionExpr>(TableColumn<T>(second)); }
+    { return static_cast<TableColumnComparsionExpr>(*this) != static_cast<TableColumnComparsionExpr>(TableColumn{second}); }
 };
 
 }
