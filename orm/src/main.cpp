@@ -59,12 +59,19 @@ int main ()
         [&tbl](const size_t rowIndex)
         {
             std::cout << "ROW_INDEX [" << rowIndex << "]: ";
-            if (rowIndex < tbl.ID.getRowsCount()) std::cout << tbl.ID[rowIndex] << "   ";
-            if (rowIndex < tbl.C1.getRowsCount()) std::cout << tbl.C1[rowIndex] << "   ";
-            if (rowIndex < tbl.C2.getRowsCount()) std::cout << tbl.C2[rowIndex] << "   ";
-            if (rowIndex < tbl.C3.getRowsCount()) std::cout << tbl.C3[rowIndex] << "   ";
-            if (rowIndex < tbl.C4.getRowsCount()) std::cout << tbl.C4[rowIndex] << "   ";
-            if (rowIndex < tbl.C5.getRowsCount()) std::cout << tbl.C5[rowIndex] << "   ";
+
+            // tbl.getMaxRowsCount()
+            // tbl.<column>.getRowsCount()
+
+            std::cout << tbl.ID[rowIndex] << "   ";
+            std::cout << tbl.C1[rowIndex] << "   ";
+            std::cout << tbl.C2[rowIndex] << "   ";
+            std::cout << tbl.C3[rowIndex] << "   ";
+            std::cout << tbl.C4[rowIndex] << "   ";
+            std::cout << tbl.C5[rowIndex] << "   ";
+
+             std::cout << tbl.C5[100500] << "   ";
+
             std::cout << std::endl;
         },
         {},{},{},{},0,0,

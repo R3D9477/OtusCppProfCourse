@@ -22,6 +22,7 @@ public:
     using Table::getTableName;
     using Table::addRow;
     using Table::clearRows;
+    using Table::getMaxRowsCount;
 
     SqliteTable(const SqlName& name, const SqliteDatabase& db): Table{name}, sqliteDatabase{db} { }
 
