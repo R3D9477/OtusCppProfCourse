@@ -126,44 +126,44 @@ BOOST_AUTO_TEST_CASE(test_eorm_sqlite_insert_and_select_all_rows)
             switch (rowIndex)
             {
                 case 0:
-                    BOOST_CHECK( tbl.ID.getRowValue(rowIndex) == 1 );
-                    BOOST_CHECK( tbl.C1.getRowValue(rowIndex) == 1.111 );
-                    BOOST_CHECK( tbl.C2.getRowValue(rowIndex) == time_t(1631730831) );
-                    BOOST_CHECK( tbl.C3.getRowValue(rowIndex) == "Row 01" );
-                    BOOST_CHECK( tbl.C4.getRowValue(rowIndex) == 1.1f );
-                    BOOST_CHECK( tbl.C5.getRowValue(rowIndex) == 1.01f );
+                    BOOST_CHECK( tbl.ID[rowIndex] == 1 );
+                    BOOST_CHECK( tbl.C1[rowIndex] == 1.111 );
+                    BOOST_CHECK( tbl.C2[rowIndex] == time_t(1631730831) );
+                    BOOST_CHECK( tbl.C3[rowIndex] == "Row 01" );
+                    BOOST_CHECK( tbl.C4[rowIndex] == 1.1f );
+                    BOOST_CHECK( tbl.C5[rowIndex] == 1.01f );
                     return;
                 case 1:
-                    BOOST_CHECK( tbl.ID.getRowValue(rowIndex) == 2 );
-                    BOOST_CHECK( tbl.C1.getRowValue(rowIndex) == 2.222 );
-                    BOOST_CHECK( tbl.C2.getRowValue(rowIndex) == time_t(1631730832) );
-                    BOOST_CHECK( tbl.C3.getRowValue(rowIndex) == "Row 02" );
-                    BOOST_CHECK( tbl.C4.getRowValue(rowIndex) == 2.1f );
-                    BOOST_CHECK( tbl.C5.getRowValue(rowIndex) == 2.01f );
+                    BOOST_CHECK( tbl.ID[rowIndex] == 2 );
+                    BOOST_CHECK( tbl.C1[rowIndex] == 2.222 );
+                    BOOST_CHECK( tbl.C2[rowIndex] == time_t(1631730832) );
+                    BOOST_CHECK( tbl.C3[rowIndex] == "Row 02" );
+                    BOOST_CHECK( tbl.C4[rowIndex] == 2.1f );
+                    BOOST_CHECK( tbl.C5[rowIndex] == 2.01f );
                     return;
                 case 2:
-                    BOOST_CHECK( tbl.ID.getRowValue(rowIndex) == 3 );
-                    BOOST_CHECK( tbl.C1.getRowValue(rowIndex) == 3.333 );
-                    BOOST_CHECK( tbl.C2.getRowValue(rowIndex) == time_t(1631730833) );
-                    BOOST_CHECK( tbl.C3.getRowValue(rowIndex) == "Row 03" );
-                    BOOST_CHECK( tbl.C4.getRowValue(rowIndex) == 3.1f );
-                    BOOST_CHECK( tbl.C5.getRowValue(rowIndex) == 3.01f );
+                    BOOST_CHECK( tbl.ID[rowIndex] == 3 );
+                    BOOST_CHECK( tbl.C1[rowIndex] == 3.333 );
+                    BOOST_CHECK( tbl.C2[rowIndex] == time_t(1631730833) );
+                    BOOST_CHECK( tbl.C3[rowIndex] == "Row 03" );
+                    BOOST_CHECK( tbl.C4[rowIndex] == 3.1f );
+                    BOOST_CHECK( tbl.C5[rowIndex] == 3.01f );
                     return;
                 case 3:
-                    BOOST_CHECK( tbl.ID.getRowValue(rowIndex) == 4 );
-                    BOOST_CHECK( tbl.C1.getRowValue(rowIndex) == 4.444 );
-                    BOOST_CHECK( tbl.C2.getRowValue(rowIndex) == time_t(1631730834) );
-                    BOOST_CHECK( tbl.C3.getRowValue(rowIndex) == "Row 04" );
-                    BOOST_CHECK( tbl.C4.getRowValue(rowIndex) == 4.1f );
-                    BOOST_CHECK( tbl.C5.getRowValue(rowIndex) == 4.01f );
+                    BOOST_CHECK( tbl.ID[rowIndex] == 4 );
+                    BOOST_CHECK( tbl.C1[rowIndex] == 4.444 );
+                    BOOST_CHECK( tbl.C2[rowIndex] == time_t(1631730834) );
+                    BOOST_CHECK( tbl.C3[rowIndex] == "Row 04" );
+                    BOOST_CHECK( tbl.C4[rowIndex] == 4.1f );
+                    BOOST_CHECK( tbl.C5[rowIndex] == 4.01f );
                     return;
                 case 4:
-                    BOOST_CHECK( tbl.ID.getRowValue(rowIndex) == 5 );
-                    BOOST_CHECK( tbl.C1.getRowValue(rowIndex) == 5.555 );
-                    BOOST_CHECK( tbl.C2.getRowValue(rowIndex) == time_t(1631730835) );
-                    BOOST_CHECK( tbl.C3.getRowValue(rowIndex) == "Row 05" );
-                    BOOST_CHECK( tbl.C4.getRowValue(rowIndex) == 5.1f );
-                    BOOST_CHECK( tbl.C5.getRowValue(rowIndex) == 5.01f );
+                    BOOST_CHECK( tbl.ID[rowIndex] == 5 );
+                    BOOST_CHECK( tbl.C1[rowIndex] == 5.555 );
+                    BOOST_CHECK( tbl.C2[rowIndex] == time_t(1631730835) );
+                    BOOST_CHECK( tbl.C3[rowIndex] == "Row 05" );
+                    BOOST_CHECK( tbl.C4[rowIndex] == 5.1f );
+                    BOOST_CHECK( tbl.C5[rowIndex] == 5.01f );
                     return;
             }
             BOOST_CHECK( false );
@@ -217,28 +217,28 @@ BOOST_AUTO_TEST_CASE(test_eorm_sqlite_insert_and_select_rows)
             switch (rowIndex)
             {
                 case 0:
-                    BOOST_CHECK( tbl.ID.getRowValue(rowIndex) == 2 );
-                    BOOST_CHECK( tbl.C1.getRowValue(rowIndex) == 2.222 );
-                    BOOST_CHECK( tbl.C2.getRowValue(rowIndex) == time_t(1631730832) );
-                    BOOST_CHECK( tbl.C3.getRowValue(rowIndex) == "Row 02" );
-                    BOOST_CHECK( tbl.C4.getRowValue(rowIndex) == 2.1f );
-                    BOOST_CHECK( tbl.C5.getRowValue(rowIndex) == 2.01f );
+                    BOOST_CHECK( tbl.ID[rowIndex] == 2 );
+                    BOOST_CHECK( tbl.C1[rowIndex] == 2.222 );
+                    BOOST_CHECK( tbl.C2[rowIndex] == time_t(1631730832) );
+                    BOOST_CHECK( tbl.C3[rowIndex] == "Row 02" );
+                    BOOST_CHECK( tbl.C4[rowIndex] == 2.1f );
+                    BOOST_CHECK( tbl.C5[rowIndex] == 2.01f );
                     return;
                 case 1:
-                    BOOST_CHECK( tbl.ID.getRowValue(rowIndex) == 3 );
-                    BOOST_CHECK( tbl.C1.getRowValue(rowIndex) == 3.333 );
-                    BOOST_CHECK( tbl.C2.getRowValue(rowIndex) == time_t(1631730833) );
-                    BOOST_CHECK( tbl.C3.getRowValue(rowIndex) == "Row 03" );
-                    BOOST_CHECK( tbl.C4.getRowValue(rowIndex) == 3.1f );
-                    BOOST_CHECK( tbl.C5.getRowValue(rowIndex) == 3.01f );
+                    BOOST_CHECK( tbl.ID[rowIndex] == 3 );
+                    BOOST_CHECK( tbl.C1[rowIndex] == 3.333 );
+                    BOOST_CHECK( tbl.C2[rowIndex] == time_t(1631730833) );
+                    BOOST_CHECK( tbl.C3[rowIndex] == "Row 03" );
+                    BOOST_CHECK( tbl.C4[rowIndex] == 3.1f );
+                    BOOST_CHECK( tbl.C5[rowIndex] == 3.01f );
                     return;
                 case 2:
-                    BOOST_CHECK( tbl.ID.getRowValue(rowIndex) == 4 );
-                    BOOST_CHECK( tbl.C1.getRowValue(rowIndex) == 4.444 );
-                    BOOST_CHECK( tbl.C2.getRowValue(rowIndex) == time_t(1631730834) );
-                    BOOST_CHECK( tbl.C3.getRowValue(rowIndex) == "Row 04" );
-                    BOOST_CHECK( tbl.C4.getRowValue(rowIndex) == 4.1f );
-                    BOOST_CHECK( tbl.C5.getRowValue(rowIndex) == 4.01f );
+                    BOOST_CHECK( tbl.ID[rowIndex] == 4 );
+                    BOOST_CHECK( tbl.C1[rowIndex] == 4.444 );
+                    BOOST_CHECK( tbl.C2[rowIndex] == time_t(1631730834) );
+                    BOOST_CHECK( tbl.C3[rowIndex] == "Row 04" );
+                    BOOST_CHECK( tbl.C4[rowIndex] == 4.1f );
+                    BOOST_CHECK( tbl.C5[rowIndex] == 4.01f );
                     return;
             }
             BOOST_CHECK( false );
@@ -299,28 +299,28 @@ BOOST_AUTO_TEST_CASE(test_eorm_sqlite_update_and_select_rows)
             switch (rowIndex)
             {
                 case 0:
-                    BOOST_CHECK( tbl.ID.getRowValue(rowIndex) == int(rowIndex+1) );
-                    BOOST_CHECK( tbl.C1.getRowValue(rowIndex) == 1.111 );
-                    BOOST_CHECK( tbl.C2.getRowValue(rowIndex) == time_t(1631730831) );
-                    BOOST_CHECK( tbl.C3.getRowValue(rowIndex) == "Row 01" );
-                    BOOST_CHECK( tbl.C4.getRowValue(rowIndex) == 1.1f );
-                    BOOST_CHECK( tbl.C5.getRowValue(rowIndex) == 1.01f );
+                    BOOST_CHECK( tbl.ID[rowIndex] == int(rowIndex+1) );
+                    BOOST_CHECK( tbl.C1[rowIndex] == 1.111 );
+                    BOOST_CHECK( tbl.C2[rowIndex] == time_t(1631730831) );
+                    BOOST_CHECK( tbl.C3[rowIndex] == "Row 01" );
+                    BOOST_CHECK( tbl.C4[rowIndex] == 1.1f );
+                    BOOST_CHECK( tbl.C5[rowIndex] == 1.01f );
                     return;
                 case 1: case 2: case 3:
-                    BOOST_CHECK( tbl.ID.getRowValue(rowIndex) == int(rowIndex+1) );
-                    BOOST_CHECK( tbl.C1.getRowValue(rowIndex) == 888.888 );
-                    BOOST_CHECK( tbl.C2.getRowValue(rowIndex) == time_t(0) );
-                    BOOST_CHECK( tbl.C3.getRowValue(rowIndex) == "UPDATED ROW" );
-                    BOOST_CHECK( tbl.C4.getRowValue(rowIndex) == 8.88f );
-                    BOOST_CHECK( tbl.C5.getRowValue(rowIndex) == 88.008f );
+                    BOOST_CHECK( tbl.ID[rowIndex] == int(rowIndex+1) );
+                    BOOST_CHECK( tbl.C1[rowIndex] == 888.888 );
+                    BOOST_CHECK( tbl.C2[rowIndex] == time_t(0) );
+                    BOOST_CHECK( tbl.C3[rowIndex] == "UPDATED ROW" );
+                    BOOST_CHECK( tbl.C4[rowIndex] == 8.88f );
+                    BOOST_CHECK( tbl.C5[rowIndex] == 88.008f );
                     return;
                 case 4:
-                    BOOST_CHECK( tbl.ID.getRowValue(rowIndex) == int(rowIndex+1) );
-                    BOOST_CHECK( tbl.C1.getRowValue(rowIndex) == 5.555 );
-                    BOOST_CHECK( tbl.C2.getRowValue(rowIndex) == time_t(1631730835) );
-                    BOOST_CHECK( tbl.C3.getRowValue(rowIndex) == "Row 05" );
-                    BOOST_CHECK( tbl.C4.getRowValue(rowIndex) == 5.1f );
-                    BOOST_CHECK( tbl.C5.getRowValue(rowIndex) == 5.01f );
+                    BOOST_CHECK( tbl.ID[rowIndex] == int(rowIndex+1) );
+                    BOOST_CHECK( tbl.C1[rowIndex] == 5.555 );
+                    BOOST_CHECK( tbl.C2[rowIndex] == time_t(1631730835) );
+                    BOOST_CHECK( tbl.C3[rowIndex] == "Row 05" );
+                    BOOST_CHECK( tbl.C4[rowIndex] == 5.1f );
+                    BOOST_CHECK( tbl.C5[rowIndex] == 5.01f );
                     return;
             }
             BOOST_CHECK( false );
@@ -376,20 +376,20 @@ BOOST_AUTO_TEST_CASE(test_eorm_sqlite_delete_and_select_rows)
             switch (rowIndex)
             {
                 case 0:
-                    BOOST_CHECK( tbl.ID.getRowValue(rowIndex) == 1 );
-                    BOOST_CHECK( tbl.C1.getRowValue(rowIndex) == 1.111 );
-                    BOOST_CHECK( tbl.C2.getRowValue(rowIndex) == time_t(1631730831) );
-                    BOOST_CHECK( tbl.C3.getRowValue(rowIndex) == "Row 01" );
-                    BOOST_CHECK( tbl.C4.getRowValue(rowIndex) == 1.1f );
-                    BOOST_CHECK( tbl.C5.getRowValue(rowIndex) == 1.01f );
+                    BOOST_CHECK( tbl.ID[rowIndex] == 1 );
+                    BOOST_CHECK( tbl.C1[rowIndex] == 1.111 );
+                    BOOST_CHECK( tbl.C2[rowIndex] == time_t(1631730831) );
+                    BOOST_CHECK( tbl.C3[rowIndex] == "Row 01" );
+                    BOOST_CHECK( tbl.C4[rowIndex] == 1.1f );
+                    BOOST_CHECK( tbl.C5[rowIndex] == 1.01f );
                     return;
                 case 1:
-                    BOOST_CHECK( tbl.ID.getRowValue(rowIndex) == 5 );
-                    BOOST_CHECK( tbl.C1.getRowValue(rowIndex) == 5.555 );
-                    BOOST_CHECK( tbl.C2.getRowValue(rowIndex) == time_t(1631730835) );
-                    BOOST_CHECK( tbl.C3.getRowValue(rowIndex) == "Row 05" );
-                    BOOST_CHECK( tbl.C4.getRowValue(rowIndex) == 5.1f );
-                    BOOST_CHECK( tbl.C5.getRowValue(rowIndex) == 5.01f );
+                    BOOST_CHECK( tbl.ID[rowIndex] == 5 );
+                    BOOST_CHECK( tbl.C1[rowIndex] == 5.555 );
+                    BOOST_CHECK( tbl.C2[rowIndex] == time_t(1631730835) );
+                    BOOST_CHECK( tbl.C3[rowIndex] == "Row 05" );
+                    BOOST_CHECK( tbl.C4[rowIndex] == 5.1f );
+                    BOOST_CHECK( tbl.C5[rowIndex] == 5.01f );
                     return;
             }
             BOOST_CHECK( false );
@@ -410,4 +410,3 @@ BOOST_AUTO_TEST_CASE(test_eorm_sqlite_delete_and_select_rows)
 }
 
 }
-

@@ -65,6 +65,8 @@ public:
             ) == 0)
         : false;
     }
+
+    SqliteDatabase& operator= (const SqliteDatabase&) = delete;
 };
 
 }

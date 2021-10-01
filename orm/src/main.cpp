@@ -32,10 +32,6 @@ int main ()
 
     tbl.createTable();
 
-    //...
-
-    tbl.dropTable();
-
     tbl.clearRows();
     tbl.selectRows(
         nullptr,
@@ -63,12 +59,12 @@ int main ()
         [&tbl](const size_t rowIndex)
         {
             std::cout << "ROW_INDEX [" << rowIndex << "]: ";
-            if (rowIndex < tbl.ID.getRowsCount()) std::cout << tbl.ID.getRowValue(rowIndex) << "   ";
-            if (rowIndex < tbl.C1.getRowsCount()) std::cout << tbl.C1.getRowValue(rowIndex) << "   ";
-            if (rowIndex < tbl.C2.getRowsCount()) std::cout << tbl.C2.getRowValue(rowIndex) << "   ";
-            if (rowIndex < tbl.C3.getRowsCount()) std::cout << tbl.C3.getRowValue(rowIndex) << "   ";
-            if (rowIndex < tbl.C4.getRowsCount()) std::cout << tbl.C4.getRowValue(rowIndex) << "   ";
-            if (rowIndex < tbl.C5.getRowsCount()) std::cout << tbl.C5.getRowValue(rowIndex) << "   ";
+            if (rowIndex < tbl.ID.getRowsCount()) std::cout << tbl.ID[rowIndex] << "   ";
+            if (rowIndex < tbl.C1.getRowsCount()) std::cout << tbl.C1[rowIndex] << "   ";
+            if (rowIndex < tbl.C2.getRowsCount()) std::cout << tbl.C2[rowIndex] << "   ";
+            if (rowIndex < tbl.C3.getRowsCount()) std::cout << tbl.C3[rowIndex] << "   ";
+            if (rowIndex < tbl.C4.getRowsCount()) std::cout << tbl.C4[rowIndex] << "   ";
+            if (rowIndex < tbl.C5.getRowsCount()) std::cout << tbl.C5[rowIndex] << "   ";
             std::cout << std::endl;
         },
         {},{},{},{},0,0,
@@ -89,12 +85,12 @@ int main ()
         [&tbl](const size_t rowIndex)
         {
             std::cout << "ROW_INDEX [" << rowIndex << "]: ";
-            if (rowIndex < tbl.ID.getRowsCount()) std::cout << tbl.ID.getRowValue(rowIndex) << "   ";
-            if (rowIndex < tbl.C1.getRowsCount()) std::cout << tbl.C1.getRowValue(rowIndex) << "   ";
-            if (rowIndex < tbl.C2.getRowsCount()) std::cout << tbl.C2.getRowValue(rowIndex) << "   ";
-            if (rowIndex < tbl.C3.getRowsCount()) std::cout << tbl.C3.getRowValue(rowIndex) << "   ";
-            if (rowIndex < tbl.C4.getRowsCount()) std::cout << tbl.C4.getRowValue(rowIndex) << "   ";
-            if (rowIndex < tbl.C5.getRowsCount()) std::cout << tbl.C5.getRowValue(rowIndex) << "   ";
+            if (rowIndex < tbl.ID.getRowsCount()) std::cout << tbl.ID[rowIndex] << "   ";
+            if (rowIndex < tbl.C1.getRowsCount()) std::cout << tbl.C1[rowIndex] << "   ";
+            if (rowIndex < tbl.C2.getRowsCount()) std::cout << tbl.C2[rowIndex] << "   ";
+            if (rowIndex < tbl.C3.getRowsCount()) std::cout << tbl.C3[rowIndex] << "   ";
+            if (rowIndex < tbl.C4.getRowsCount()) std::cout << tbl.C4[rowIndex] << "   ";
+            if (rowIndex < tbl.C5.getRowsCount()) std::cout << tbl.C5[rowIndex] << "   ";
             std::cout << std::endl;
         },
         {},{},{},{},0,0,

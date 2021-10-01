@@ -27,33 +27,47 @@ class DefaultValue
 
 public:
 
-    template <typename T1=T, std::enable_if_t< !std::is_same<T1, bool>::value, bool > = true>
+    template <typename T1=T,
+        std::enable_if_t<
+           !std::is_same<T1, bool>::value,
+        bool> = true>
     constexpr DefaultValue (const bool not_null = false): is_null{!not_null}
     { }
 
-    template <typename T1=T, std::enable_if_t< std::is_fundamental<T1>::value, bool > = true>
+    template <typename T1=T,
+        std::enable_if_t<
+            std::is_arithmetic<T1>::value,
+        bool> = true>
     constexpr DefaultValue (const T1& val): value{val},is_null{false}
     { }
 
-    template <typename T1=T, std::enable_if_t< std::is_same<T1, std::string>::value, bool > = true>
+    template <typename T1=T,
+        std::enable_if_t<
+           std::is_same<T1, const char*>::value
+        || std::is_same<T1, std::string>::value,
+        bool> = true>
     constexpr DefaultValue (const T1& val): value{val},is_null{value == nullptr}
     { }
 
-
-    template <typename T1=T, std::enable_if_t< !std::is_fundamental<T1>::value, bool > = true>
+    template <typename T1=T,
+        std::enable_if_t<
+            std::is_arithmetic<T1>::value,
+        bool> = true>
     constexpr T getValue() const { return value; }
-
-    template <typename T1=T, std::enable_if_t< std::is_same<T1, std::string>::value, bool > = true>
-    constexpr const T& getValue() const { return value; }
-
-
-    constexpr bool isNull() const { return is_null; }
-
 
     template <typename T1=T,
         std::enable_if_t<
-                 std::is_arithmetic<T1>::value
-            &&  !std::is_same<T1, time_t>::value,
+           std::is_same<T1, const char*>::value
+        || std::is_same<T1, std::string>::value,
+        bool> = true>
+    constexpr const T& getValue() const { return value; }
+
+    constexpr bool isNull() const { return is_null; }
+
+    template <typename T1=T,
+        std::enable_if_t<
+             std::is_arithmetic<T1>::value
+        &&  !std::is_same<T1, time_t>::value,
         bool> = true>
     std::string getSqlValue() const
     {
@@ -75,8 +89,8 @@ public:
 
     template <typename T1=T,
         std::enable_if_t<
-               std::is_same<T1, const char*>::value
-            || std::is_same<T1, std::string>::value,
+           std::is_same<T1, const char*>::value
+        || std::is_same<T1, std::string>::value,
         bool> = true>
     std::string getSqlValue() const
     {

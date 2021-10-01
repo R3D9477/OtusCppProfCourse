@@ -58,6 +58,7 @@ public:
     { }
 
     size_t getRowsCount() const override { return this->columnData.size(); }
+
     void clearRows() override { this->columnData.clear(); }
 
     void addRowStr(const char* rowStr) override
@@ -74,16 +75,32 @@ public:
                 addRowPtr(std::make_shared<T>(T(rowStr)));
         }
     }
+
     void addRowPtr(const std::shared_ptr<void> rowPtr) override
     {
         if (rowPtr)
             this->columnData.push_back(*(std::static_pointer_cast<T>(rowPtr)));
     }
-    void removeLastValue() override { columnData.pop_back(); }
 
-    T getRowValue(const size_t rowIndex) const
+    void removeLastRowPtr() override { columnData.pop_back(); }
+
+    template <typename T1=T,
+        std::enable_if_t<
+            std::is_arithmetic<T1>::value,
+        bool> = true>
+    const T getRowValue(const size_t row_index) const
     {
-        return (rowIndex < columnData.size()) ? columnData[rowIndex] : T();
+        return row_index < columnData.size() ? columnData[row_index] : columnDefValue.getValue();
+    }
+
+    template <typename T1=T,
+        std::enable_if_t<
+           std::is_same<T1, const char*>::value
+        || std::is_same<T1, std::string>::value,
+        bool> = true>
+    const T& getRowValue(const size_t row_index) const
+    {
+        return row_index < columnData.size() ? columnData[row_index] : columnDefValue.getValue();
     }
 
     SqlExpr getSqlDefaultValue () const override
@@ -95,23 +112,12 @@ public:
         return { sqlBuf.str() };
     }
 
-    SqlExpr getSqlRowValue(size_t rowIndex) const override
+    SqlExpr getSqlRowValue(size_t row_index) const override
     {
-        std::ostringstream sqlBuf;
-
-        bool valueExists = false;
-
-        if ((valueExists = rowIndex < getRowsCount()))
-            sqlBuf << quoted_stringify(this->columnData[rowIndex]);
-
-        if (!valueExists)
-            if ((valueExists = this->is_NOT_NULL()))
-                sqlBuf << columnDefValue.getSqlValue();
-
-        if (!valueExists)
-            sqlBuf << "NULL";
-
-        return { sqlBuf.str() };
+        return {
+            row_index < columnData.size() ?
+                quoted_stringify(columnData[row_index]) : columnDefValue.getSqlValue()
+        };
     }
 
     SqlExpr getSqlCreateTable() const override
@@ -141,31 +147,53 @@ public:
         return { sqlBuf.str() };
     }
 
-    inline TableColumnComparsionExpr operator>  (const SqlName& second) const { return TableColumnBase::operator>(second);  }
-    inline TableColumnComparsionExpr operator<  (const SqlName& second) const { return TableColumnBase::operator<(second);  }
-    inline TableColumnComparsionExpr operator== (const SqlName& second) const { return TableColumnBase::operator==(second); }
-    inline TableColumnComparsionExpr operator!= (const SqlName& second) const { return TableColumnBase::operator!=(second); }
-    inline TableColumnComparsionExpr IN         (const SqlName& second) const { return TableColumnBase::IN(second); }
+    template <typename T1=T,
+        std::enable_if_t<
+            std::is_arithmetic<T1>::value,
+        bool> = true>
+    const T operator[] (const size_t row_index) const
+    {
+        return getRowValue(row_index);
+    }
 
-    inline TableColumnComparsionExpr operator>  (const TableColumnBase& second) const { return TableColumnBase::operator>(second);  }
-    inline TableColumnComparsionExpr operator<  (const TableColumnBase& second) const { return TableColumnBase::operator<(second);  }
-    inline TableColumnComparsionExpr operator== (const TableColumnBase& second) const { return TableColumnBase::operator==(second); }
-    inline TableColumnComparsionExpr operator!= (const TableColumnBase& second) const { return TableColumnBase::operator!=(second); }
-    inline TableColumnComparsionExpr IN         (const TableColumnBase& second) const { return TableColumnBase::IN(second); }
+    template <typename T1=T,
+        std::enable_if_t<
+           std::is_same<T1, const char*>::value
+        || std::is_same<T1, std::string>::value,
+        bool> = true>
+    const T& operator[] (const size_t row_index) const
+    {
+        return getRowValue(row_index);
+    }
 
-    inline TableColumnComparsionExpr IN (const TableColumnComparsionExpr& second) const { return TableColumnBase::IN(second); }
+    TableColumn& operator= (const TableColumn&) = delete;
+
+    TableColumnComparsionExpr operator>  (const SqlName& second) const { return TableColumnBase::operator>(second);  }
+    TableColumnComparsionExpr operator<  (const SqlName& second) const { return TableColumnBase::operator<(second);  }
+    TableColumnComparsionExpr operator== (const SqlName& second) const { return TableColumnBase::operator==(second); }
+    TableColumnComparsionExpr operator!= (const SqlName& second) const { return TableColumnBase::operator!=(second); }
+    TableColumnComparsionExpr IN         (const SqlName& second) const { return TableColumnBase::IN(second); }
+
+    TableColumnComparsionExpr operator>  (const TableColumnBase& second) const { return TableColumnBase::operator>(second);  }
+    TableColumnComparsionExpr operator<  (const TableColumnBase& second) const { return TableColumnBase::operator<(second);  }
+    TableColumnComparsionExpr operator== (const TableColumnBase& second) const { return TableColumnBase::operator==(second); }
+    TableColumnComparsionExpr operator!= (const TableColumnBase& second) const { return TableColumnBase::operator!=(second); }
+    TableColumnComparsionExpr IN         (const TableColumnBase& second) const { return TableColumnBase::IN(second); }
+
+    TableColumnComparsionExpr IN (const TableColumnComparsionExpr& second) const { return TableColumnBase::IN(second); }
 
     TableColumnComparsionExpr operator> (const T& second) const
     { return static_cast<TableColumnComparsionExpr>(*this) > static_cast<TableColumnComparsionExpr>(TableColumn{second});  }
 
-    inline TableColumnComparsionExpr operator< (const T& second) const
+    TableColumnComparsionExpr operator< (const T& second) const
     { return static_cast<TableColumnComparsionExpr>(*this) < static_cast<TableColumnComparsionExpr>(TableColumn{second});  }
 
-    inline TableColumnComparsionExpr operator== (const T& second) const
+    TableColumnComparsionExpr operator== (const T& second) const
     { return static_cast<TableColumnComparsionExpr>(*this) == static_cast<TableColumnComparsionExpr>(TableColumn{second}); }
 
-    inline TableColumnComparsionExpr operator!= (const T& second) const
+    TableColumnComparsionExpr operator!= (const T& second) const
     { return static_cast<TableColumnComparsionExpr>(*this) != static_cast<TableColumnComparsionExpr>(TableColumn{second}); }
+
 };
 
 }

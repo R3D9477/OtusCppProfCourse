@@ -218,7 +218,7 @@ SqlExpr Table::getSqlRowsCount(const SqlExpr& sqlEpr) const
 
 void Table::clearRows()
 {
-    for (auto& cl: this->tableColumns)
+    for (auto& cl: tableColumns)
         cl.get().clearRows();
 }
 

@@ -24,8 +24,9 @@ class TableColumnBase
 {
 protected:
 
-    TCT     columnType;
-    TCS     columnSpecs;
+    const TCT columnType;
+    const TCS columnSpecs;
+
     SqlName columnName;
 
     std::shared_ptr<Table> table;
@@ -44,14 +45,14 @@ public:
 
     virtual SqlExpr getSqlName (const char delimiter = '.') const;
     virtual SqlExpr getSqlDefaultValue () const { return {}; }
-    virtual SqlExpr getSqlRowValue (size_t rowIndex) const { std::ignore = rowIndex; return {}; }
+    virtual SqlExpr getSqlRowValue (size_t row_index) const { std::ignore = row_index; return {}; }
     virtual SqlExpr getSqlCreateTable () const { return {}; }
 
     virtual size_t getRowsCount () const { return 0; }
     virtual void clearRows () {}
     virtual void addRowStr (const char* rowStr) { std::ignore = rowStr; }
     virtual void addRowPtr (const std::shared_ptr<void> rowPtr) { std::ignore = rowPtr; }
-    virtual void removeLastValue () {}
+    virtual void removeLastRowPtr () {}
 
     virtual bool is_PRIMARY_KEY     () const { return eorm::core::is_PRIMARY_KEY(this->columnSpecs);   }
     virtual bool is_AUTOINCREMENT   () const { return eorm::core::is_AUTOINCREMENT(this->columnSpecs); }
@@ -66,6 +67,8 @@ public:
             ? TableColumnComparsionExpr(this->getSqlDefaultValue())
             : TableColumnComparsionExpr(this->getSqlName());
     }
+
+    TableColumnBase& operator= (const TableColumnBase&) = delete;
 
     TableColumnComparsionExpr operator> (const SqlName& second) const
     { return static_cast<TableColumnComparsionExpr>(*this) > TableColumnComparsionExpr(second);   }
@@ -99,6 +102,7 @@ public:
 
     TableColumnComparsionExpr IN (const TableColumnComparsionExpr& second) const
     { return static_cast<TableColumnComparsionExpr>(*this).IN(second); }
+
 };
 
 struct TableRowSort;
@@ -196,12 +200,14 @@ public:
 
         if (getTableColumnType<typeof(buf)>() != this->tableColumns[colIndex].get().columnType)
         {
-            std::for_each_n(this->tableColumns.begin(), colIndex, [](auto& column){ column.get().removeLastValue(); });
+            std::for_each_n(this->tableColumns.begin(), colIndex, [](auto& column){ column.get().removeLastRowPtr(); });
             throw ValueTypeException{colIndex};
         }
 
         this->tableColumns[colIndex].get().addRowPtr(std::make_shared<typeof(buf)>(buf));
     }
+
+    Table& operator= (const Table&) = delete;
 };
 
 struct TableRowSort
