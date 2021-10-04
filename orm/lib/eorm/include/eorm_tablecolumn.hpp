@@ -10,6 +10,8 @@
 namespace eorm {
 namespace core {
 
+struct NullValue{};
+
 template<typename T>
 class TableColumn: public TableColumnBase
 {
@@ -194,6 +196,11 @@ public:
     TableColumnComparsionExpr operator!= (const T& second) const
     { return static_cast<TableColumnComparsionExpr>(*this) != static_cast<TableColumnComparsionExpr>(TableColumn{second}); }
 
+    TableColumnComparsionExpr operator== (const NullValue&) const
+    { return static_cast<TableColumnComparsionExpr>(*this) == TableColumnComparsionExpr{"NULL"};  }
+
+    TableColumnComparsionExpr operator!= (const NullValue&) const
+    { return static_cast<TableColumnComparsionExpr>(*this) != TableColumnComparsionExpr{"NULL"};  }
 };
 
 }

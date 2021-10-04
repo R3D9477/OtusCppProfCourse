@@ -102,7 +102,6 @@ public:
 
     TableColumnComparsionExpr IN (const TableColumnComparsionExpr& second) const
     { return static_cast<TableColumnComparsionExpr>(*this).IN(second); }
-
 };
 
 struct TableRowSort;
